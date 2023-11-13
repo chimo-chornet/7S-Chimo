@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../libs/bGeneral.php");
 if(!isset($_REQUEST['acceder'])) {
     include("../vistas/formLogin.php");
@@ -27,6 +28,7 @@ if($usuario!="") {
     }
     if($usuarioValido==true) {
         if($passwordValido==true) {
+            $_SESSION["usuario"]=$usuario;
             echo("Bienvenido usuario".$usuario);
             header("Location: ../vistas/privado.php");
         } else {

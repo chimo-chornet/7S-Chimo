@@ -31,7 +31,7 @@
   Fines de semana <input type="checkbox" name="disponibilidad[]" value="FinesSemana"><br><br>
   Foto del servicio: <input type="file" name="fotoServicio"><br><br>
   <input type="submit" name="alta" value="Dar de alta el servicio">
-  <input type="reset" name="salir" value="Cancelar y salir" onclick="location.href='../vistas/index.php'">
+  <input type="reset" name="salir" value="Cancelar y salir" onclick="location.href='../vistas/privado.php'">
 
 </form>
 </body>
