@@ -7,5 +7,15 @@ cabecera("Página principal");
   <a href="../vistas/formRegistro.php">Registro<a><br>
     <h2>Listado de servicios</h2>
 <?php
-  pie();
+$puntero=fopen("../ficheros/servicios.txt","r");
+echo("<ul>");
+while(!feof($puntero)){
+$linea=fgets($puntero);
+$separados=explode(":",$linea);
+echo("<li>".$separados[0]."</li>");
+}
+echo("</ul>");
+fclose($puntero);
+
+pie();
 ?>
