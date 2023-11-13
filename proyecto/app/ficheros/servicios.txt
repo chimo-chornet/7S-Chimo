@@ -1,0 +1,8 @@
+Pesca de cangrejos:Alimentacion:Cangrejo de playa:Pago:10:Valencia:../ficheros/fotos\1699902358cangrejo.png:-Tardes--FinesSemana-:1699902358
+Paseo de perros:Trabajo:Paseo perros:Pago:10:Valencia:../ficheros/fotos\1699902460burbujas.png:-Completo--FinesSemana-:1699902460
+Cuidado de gatos:Ocio:Cuido gatos por placer:Intercambio::Valencia:Sin imagen:-FinesSemana-:1699902681
+::::::Sin imagen:-Mañanas-:1699904674
+::::::Sin imagen:-Mañanas-:1699904678
+::::::Sin imagen:-Mañanas-:1699904699
+Pesca de cangrejos::::::Sin imagen:-Mañanas-:1699904744
+Pesca de cangrejos:Trabajo:Pesxc:Pago:15:Valencia:Sin imagen:-Mañanas-:1699905171

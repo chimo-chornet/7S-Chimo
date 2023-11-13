@@ -9,9 +9,12 @@
 
 
 <h1>Acceso al área privada</h1>
-<form action="" method="">
-  Usuario: <input type="text" name="usuario" value=""><br><br>
+<form action="../manejadoresForm/login.php" method="post">
+  Usuario: <input type="text" name="usuario" value="<?=(isset($usuario))? $usuario:""?>"><br><br>
   Contraseña: <input type="password" name="loginPass"><br><br>
+  <input type="submit" name="acceder" value="Acceder">
+  <input type="button" name="salir" value=Salir onclick="location.href='../vistas/index.php'">
+
 
 </form>
 </body>

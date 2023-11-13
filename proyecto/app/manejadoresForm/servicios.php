@@ -1,47 +1,51 @@
 <?php
 include("../libs/bGeneral.php");
-//include("../vistas/formRegistro.php");
-
 $errores=[];
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
-$nombre=recoge('nombre');
-$mail=recoge('email');
-$foto=recoge('foto');
-$pass=recoge('contrasenya');
-$fechaNac=recoge('nacimiento');
-$idioma=recoge('idioma');
+$titulo=recoge('titulo');
+$categoria=recoge('categoria');
 $descripcion=recoge('descripcion');
+$tipo=recoge('tipo');
+$precio=recoge('precio');
+$ubicacion=recoge('ubicacion');
+if(empty($_REQUEST['disponibilidad'])){
 
-cTexto($nombre,'Nombre',$errores);
-if($nombre==""){
-    $errores['nombre']="Debe introducir un nombre";
+    $errores['disponibilidad']="Debe seleccionar al menos una opción de disponibilidad";
+}else{
+    $disponibilidad=$_REQUEST['disponibilidad'];
 }
-if($mail==""){
-    $errores['email']="Debe introducir una dirección de correo electrónico";
-    }
-    if($pass==""){
-        $errores['password']="Debe introducir una constraseña";
-    }
-if($fechaNac==""){
-    $errores['fecha']="Debe introducir una fecha";
-}
-if($fechaNac>'2005-11-13'){
-    $errores['fecha']="Solo se pueden registrar personas mayores de 18 años";
-}
-if($idioma==""){
-    $errores['idioma']="Debe introducir un idioma prederido";
-}
+    $fotoServicio=recoge("fotoServicio");
+$valores=['Mañanas','Tardes','Completo','FinesSemana'];
 
 
-if ($_FILES['foto']['name'] =="") {
+if($titulo==""){
+    $errores['titulo']="Debe introducir un título para el servicio";
+}else{
+    cTexto($titulo,'titulo',$errores);
+}
+if($categoria==""){
+    $errores['categoria']="Debe seleccionar una categoría para el servicio";
+}
+if($descripcion==""){
+    $errores['descripcion']="Debe escribir una descripción detallada del servicio";
+}
+if($ubicacion==""){
+    $errores['ubicacion']="Debe señalar la ubicación donde se desarrolla el servicio";
+}
+if($tipo==""){
+    $errores['tipo']="Debe indicar el tipo de servicio";
+}
+
+
+if ($_FILES['fotoServicio']['name'] =="") {
     $nombreCompleto='Sin imagen';
     //$errores["imagen"] = "No hay imagen";
 } else {
 
-    if (($_FILES['foto']['error'] != 0)) {
-        switch ($_FILES['foto']['error']) {
+    if (($_FILES['fotoServicio']['error'] != 0)) {
+        switch ($_FILES['fotoServicio']['error']) {
             case 1:
                 $errores["imagen"] = "UPLOAD_ERR_INI_SIZE. Fichero demasiado grande";
                 break;
@@ -69,11 +73,11 @@ if ($_FILES['foto']['name'] =="") {
         /**
          * Guardamos el nombre original del fichero
          **/
-        $nombreArchivo = $_FILES['foto']['name'];
+        $nombreArchivo = $_FILES['fotoServicio']['name'];
         /*
          * Guardamos nombre del fichero en el servidor
         */
-        $directorioTemp = $_FILES['foto']['tmp_name'];
+        $directorioTemp = $_FILES['fotoServicio']['tmp_name'];
         /*
          * Calculamos el tamaño del fichero
         */
@@ -123,20 +127,25 @@ if ($_FILES['foto']['name'] =="") {
     */
 
 }
-    if(empty($errores)) {
 
-        echo("Usuario registrado con éxito<br>");
-        $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreCompleto.":".time().PHP_EOL;
-        $puntero=fopen("../ficheros/usuarios.txt", "a+");
-        fwrite($puntero, $linea);
-        fclose($puntero);
 
-    } else {
-        include("../vistas/formRegistro.php");
-        foreach($errores as $error) {
-            //include("../vistas/formRegistro.php");
-            echo($error."<br>");
-        }
+if(empty($errores)) {
+
+    echo("Servicio registrado con éxito<br>");
+    $disponible="";
+    foreach($disponibilidad as $disp){
+        $disponible=$disponible."-".$disp."-";
     }
+    $linea=$titulo.":".$categoria.":".$descripcion.":".$tipo.":".$precio.":".$ubicacion.":".$nombreCompleto.":".$disponible.":".time().PHP_EOL;
+    $puntero=fopen("../ficheros/servicios.txt", "a+");
+    fwrite($puntero, $linea);
+    fclose($puntero);
 
+} else {
+    include("../vistas/formServicio.php");
+    foreach($errores as $error) {
+
+        echo($error."<br>");
+    }
+}
 ?>
