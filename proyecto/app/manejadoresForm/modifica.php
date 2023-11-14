@@ -1,34 +1,22 @@
 <?php
+session_start();
 include("../libs/bGeneral.php");
-//include("../vistas/formRegistro.php");
-
 $errores=[];
+$fechaNac="";
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
-$nombre=recoge('nombre');
-$mail=recoge('email');
+$nombre=$_SESSION['usuario'];
+$mail=$_SESSION['mail'];
+$password=$_SESSION['password'];
 $foto=recoge('foto');
 $pass=recoge('contrasenya');
-$fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 
-cTexto($nombre,'Nombre',$errores);
-if($nombre==""){
-    $errores['nombre']="Debe introducir un nombre";
-}
-if($mail==""){
-    $errores['email']="Debe introducir una dirección de correo electrónico";
-    }
-    if($pass==""){
-        $errores['password']="Debe introducir una constraseña";
-    }
-if($fechaNac==""){
-    $errores['fecha']="Debe introducir una fecha";
-}
-if($fechaNac>'2005-11-13'){
-    $errores['fecha']="Solo se pueden registrar personas mayores de 18 años";
+
+if($pass==""){
+    $errores['password']="Debe introducir una constraseña";
 }
 if($idioma==""){
     $errores['idioma']="Debe introducir un idioma prederido";
@@ -124,23 +112,48 @@ if ($_FILES['foto']['name'] =="") {
 
 }
     if(empty($errores)) {
+        $todo=file_get_contents("../ficheros/usuarios.txt","r");
+        $lineas=explode(PHP_EOL,$todo);
+        $clave=0;
+        $a=0;
+        foreach($lineas as $linea){
+        $separados=explode(":",$linea);
+            if($separados[2]==$mail&&$separados[1]==$password){
+                $fechaNac=$separados[3];
+                $clave=$a;
+            }else{
+                $a++;
 
-        echo("Usuario registrado con éxito<br>");
-        $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreCompleto.":".time().PHP_EOL;
-        $puntero=fopen("../ficheros/usuarios.txt", "a+");
-        fwrite($puntero, $linea);
-        fclose($puntero);?>
-        <form action="../vistas/index.php" method="">
-    <input type="submit" name="salir" value="Volver a la página principal">
-</form>
-<?php
+            }
+        }
+
+        if(!isset($_FILES['foto'])){
+            $nuevalinea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":Sin imagen:".time();
+        }else{
+            $nuevalinea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreCompleto.":".time();
+        }
+        $lineas[$clave]=$nuevalinea;
+
+        $nuevoTodo=implode(PHP_EOL,$lineas);
+        file_put_contents("../ficheros/usuarios.txt",$nuevoTodo);
+
+
+
+
+
+        header("location:../vistas/privado.php");
 
     } else {
-        include("../vistas/formRegistro.php");
+        header("location:../vistas/privado.php");
         foreach($errores as $error) {
             //include("../vistas/formRegistro.php");
             echo($error."<br>");
         }
     }
+
+
+
+
+
 
 ?>

@@ -4,43 +4,64 @@ include("../libs/bGeneral.php");
 if(!isset($_REQUEST['acceder'])) {
     include("../vistas/formLogin.php");
 }else{
-    $usuario=recoge('usuario');
-    $passw=recoge('loginPass');
-    $ruta="../ficheros/usuarios.txt";
-if($usuario!="") {
-    if(file_exists($ruta)) {
-        $puntero=fopen("../ficheros/usuarios.txt", "r");
-        $usuarioValido=false;
-        $passwordValido=false;
-        while(!feof($puntero)) {
-            $linea=fgets($puntero);
-            $separados=explode(":", $linea);
-            if($separados[0]==$usuario) {
-                $usuarioValido=true;
-                if($separados[1]==$passw) {
-                    $passwordValido=true;
-                }
-            }
-        }
-        fclose($puntero);
-    } else {
-        echo("El fichero no existe");
+    $email=recoge('mail');
+    $color=recoge('colorFondo');
+
+    if($color=='beige'){
+        setcookie("galletacolor","beige",time()+600,"/");
+    }else{
+        setcookie("galletacolor","white",time()+600,"/");
     }
-    if($usuarioValido==true) {
-        if($passwordValido==true) {
-            $_SESSION["usuario"]=$usuario;
-            echo("Bienvenido usuario".$usuario);
-            header("Location: ../vistas/privado.php");
+
+        $passw=recoge('loginPass');
+    $ruta="../ficheros/usuarios.txt";
+    $usuario="";
+    if(cMail($email)!=0) {
+        if(file_exists($ruta)) {
+            $puntero=fopen($ruta, "r");
+            $usuarioValido=false;
+            $passwordValido=false;
+            while(!feof($puntero)) {
+                $linea=fgets($puntero);
+                $separados=explode(":", $linea);
+                if(isset($separados[2])) {
+                    if($separados[2]==$email) {
+                        $usuarioValido=true;
+                        if($separados[1]==$passw) {
+                            $passwordValido=true;
+                            $usuario=$separados[0];
+                        }
+                    }
+
+                }
+                }
+
+        fclose($puntero);
         } else {
-            echo("Contraseña incorrecta");
-            include("../vistas/formLogin.php");
+            echo("El fichero no existe");
         }
+        if($usuarioValido==true) {
+            if($passwordValido==true) {
+                $_SESSION["mail"]=$email;
+                $_SESSION["usuario"]=$usuario;
+                $_SESSION["password"]=$passw;
+                $_SESSION["acceso"]=time();
+                $_SESSION['ip']=$_SERVER['REMOTE_ADDR'];
+
+                header("Location: ../vistas/privado.php");
+            } else {
+                echo("Contraseña incorrecta");
+
+                file_put_contents("../ficheros/logLogin.txt","password incorrecto: ".$passw." con el usuario ".$email." ".time().PHP_EOL,FILE_APPEND);
+                include("../vistas/formLogin.php");
+            }
     } else {
         echo("Usuario no registrado");
+        file_put_contents("../ficheros/logLogin.txt","Usuario no registrado: ".$email." con password ".$passw." ".time().PHP_EOL,FILE_APPEND);
         include("../vistas/formLogin.php");
     }
 }else{
-    echo("Debe introducir un usuario");
+    echo("Debe introducir un correo electrónico");
     include("../vistas/formLogin.php");
 }
 

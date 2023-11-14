@@ -1,22 +1,10 @@
-<?php
-
-if(isset($_SESSION['acceso'])){
-if(time()-($_SESSION['acceso'])>20){
-  echo("La sesión se cerrará");
-  header("location:../manejadoresForm/cierra.php");
-}
-}
-
-
-?>
 <h1>Formulario de registro</h1>
 <form action="../manejadoresForm/registro.php" method="POST" enctype="multipart/form-data">
-  Nombre completo: <input type="text" name="nombre" value="<?=(isset($nombre))? $nombre:""?>"><br><br>
+
   Dirección E-mail: <input type="email" name="email" value="<?=(isset($mail))? $mail:""?>"><br><br>
   Contraseña: <input type="password" name="contrasenya"><br><br>
-  Fecha nacimiento (aaaa-mm-dd): <input type="text" name="nacimiento" value="<?=(isset($fechaNac))? $fechaNac:""?>"><br><br>
   Foto del perfil: <input type="file" name="foto"><br><br>
-  Idioma preferente: <select name="idioma" id="" multiple >
+  Idioma preferente: <select name="idioma" id="" >
    <option value="esp" selected>Español</option>
     <option value="eng">Inglés</option>
   </select><br><br>

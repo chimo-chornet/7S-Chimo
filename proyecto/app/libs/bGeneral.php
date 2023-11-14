@@ -428,4 +428,33 @@ function subeImagen($imagen,array &$errores,$extensionesValidas,$max_file_size,$
         }
     }
 }
+function cMail($cadena){
+    $patron="/^[a-zñ][a-zñ\-1-9]{2,}@[a-z]{2,}[\.][a-z]{2,}$/i";
+    return preg_match($patron,$cadena);
+}
+function fechaCorrecta(string $cadena,array &$errores)
+{
+
+    $fecha=strtotime($cadena);
+    if($fecha=="") {
+        $errores['fecha']="Fecha incorrecta";
+        return date('Y-m-d',$fecha);
+    } else {
+        $arrayFecha=getdate($fecha);
+        $mes=$arrayFecha['mon'];
+        $anyo=$arrayFecha['year'];
+        $dia=$arrayFecha['mday'];
+        if(checkdate($mes,$dia,$anyo)){
+            return date('Y-m-d',$fecha);
+}
+        }
+}
+function fechaUnix($cadena,$tipo='eu'){
+    if($tipo=="eu"){
+        $salida=date('d-m-Y',$cadena);
+      }elseif ($tipo="us") {
+        $salida=date('Y-m-d',$cadena);
+      }
+      return $salida;
+}
     ?>

@@ -131,7 +131,7 @@ if ($_FILES['fotoServicio']['name'] =="") {
 
 if(empty($errores)) {
 
-    echo("Servicio registrado con éxito<br>");
+
     $disponible="";
     foreach($disponibilidad as $disp){
         $disponible=$disponible."-".$disp."-";
@@ -140,6 +140,7 @@ if(empty($errores)) {
     $puntero=fopen("../ficheros/servicios.txt", "a+");
     fwrite($puntero, $linea);
     fclose($puntero);
+    header("location:../vistas/privado.php");
 
 } else {
     include("../vistas/formServicio.php");

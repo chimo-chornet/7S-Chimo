@@ -1,8 +1,10 @@
 Pesca de cangrejos:Alimentacion:Cangrejo de playa:Pago:10:Valencia:../ficheros/fotos\1699902358cangrejo.png:-Tardes--FinesSemana-:1699902358
 Paseo de perros:Trabajo:Paseo perros:Pago:10:Valencia:../ficheros/fotos\1699902460burbujas.png:-Completo--FinesSemana-:1699902460
 Cuidado de gatos:Ocio:Cuido gatos por placer:Intercambio::Valencia:Sin imagen:-FinesSemana-:1699902681
-Pesca de cangrejos::::::Sin imagen:-Mañanas-:1699904744
 Pesca de cangrejos:Trabajo:Pesxc:Pago:15:Valencia:Sin imagen:-Mañanas-:1699905171
 Dorado de marcos:Trabajo:Dorado de marcos con pan de oro:Pago:25:Málaga:../ficheros/fotos\1699908492burbujas.png:-FinesSemana-:1699908492
 Vuelo de Cometas:Ocio:Para quedar y volar cometas:Intercambio::Valencia:Sin imagen:-FinesSemana-:1699908623
 Clases de inglés:Ensenanza:Clases particulares de ingles:Pago:10:Valencia:Sin imagen:-Mañanas-:1699908693
+Mudanzas:Trabajo:Mudanzas de toda clase con camión propio:Pago:20:Valencia:Sin imagen:-Tardes-:1699970308
+Mudanzas:Trabajo:Mudanzas de toda clase con camión propio:Pago:20:Valencia:Sin imagen:-Tardes-:1699970387
+Juegos de rol:Ocio:Disponible para partidas de Rol:Intercambio::Valencia:../ficheros/fotos\carahombre1.jpg:-FinesSemana-:1699970437

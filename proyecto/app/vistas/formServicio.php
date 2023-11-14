@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +9,20 @@
   <title>Document</title>
 </head>
 <body>
-
+<?php
+if(isset($_SESSION['acceso'])) {
+  if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']) {
+      echo("La sesión se cerrará");
+      header("location:../manejadoresForm/cierra.php");
+  }else{
+    $_SESSION['acceso']=time();
+  }
+}
+if(isset($_COOKIE['galletacolor'])){
+  $color=strip_tags($_COOKIE['galletacolor']);
+   echo("<Style>body{background-color:$color}</style>");
+}
+?>
 
 <h1>Alta de servicios</h1>
 <form action="../manejadoresForm/servicios.php" method="POST" enctype="multipart/form-data">

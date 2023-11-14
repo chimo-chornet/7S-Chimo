@@ -1,16 +1,7 @@
-pepe:ssss:chimochornet@gmail.com:2023-11-02:esp:rrrrr::1699881946
-pepe:ssss:chimochornet@gmail.com:2023-11-02:esp:rrrrr:Sin imagen:1699881986
-pepe:ssss:chimochornet@gmail.com:2023-11-02:esp:rrrrr:Sin imagen:1699882137
-pepe MARTínex:Perro:chimochornet@gmail.com:2023-11-02:esp:rrrrr:../ficheros/fotos\aguatierra.jpg:1699882158
-pepe MARTínex:Perro:chimochornet@gmail.com:2023-11-02:esp:rrrrr:../ficheros/fotos\aguatierra.jpg:1699882158
-pepe MARTínex:Perro:chimochornet@gmail.com:2023-11-02:esp:rrrrr:../ficheros/fotos\1699882200aguatierra.jpg:1699882200
-Manolo Cabezón:perico:manolo@mail.com:2023-11-15:eng:Posi:../ficheros/fotos\pezdisco.png:1699882442
-Pedro:Pedro:chimochornet@gmail.com:2023-11-09:esp:Como un caballito:../ficheros/fotos\1699885589caballito.png:1699885589
-Pepa:Laura:chimochornet@gmail.com:2023-11-15:esp:Tia buena:../ficheros/fotos\1699887547caballito.png:1699887547
-José Gutiérrez::chimochornet@gmail.com:2023-11-15:esp:hola:Sin imagen:1699892522
-pepe::chimochornet@gmail.com:2023-11-22:esp::Sin imagen:1699893034
-pepe:casa:chimochornet@gmail.com:2023-11-22:esp::Sin imagen:1699893136
-pepe:asder:chimochornet@gmail.com:2023-11-22:esp::Sin imagen:1699893356
-pepe:perro:chimochornet@gmail.com:1978-11-22:esp::Sin imagen:1699893757
-pepe:perros:chimochornet@gmail.com:1978-11-22:esp:Domador:Sin imagen:1699893830
-Manuel Juan:perro:manolo@mail.com:1999-06-09:esp:Pintor de muros:../ficheros/fotos\1699896895cangrejo.png:1699896895
+José Guriérrez:lopo:guti@mail.com:1987-11-11:esp:Tipo con barba trabajador:../ficheros/fotos\1699997357carahombre3.jpg:1699997357
+Pedro Patas:lip:pedro@mail.com:1998-05-12:esp:asimismo:../ficheros/fotos\carahombre2.jpg:1699993030
+Juan Mator:lopo:jmator@bmail.com:1998-11-25:esp:Guapete:../ficheros/fotos\1699993561carahombre2.jpg:1699993561
+Juan Mator:lopo:jmator@bmail.com:1998-11-25:esp:Guapete:../ficheros/fotos\1699993591carahombre2.jpg:1699993591
+Marian Blasco:lopo:mblasco@bmail.com:1998-08-22:esp:Chica trabajadora:../ficheros/fotos\caramujer2.jpg:1699995121
+Pedro Pérez:pperez:pperez@bmail.com:1985-35-89:esp:Probador:../ficheros/fotos\1699996039carahombre1.jpg:1699996039
+Laura Universidad:pancha:laura@mail.com:2001-10-03:esp:Estudiante y trabajadora:../ficheros/fotos\1699997428caramujer1.jpg:1699997428
