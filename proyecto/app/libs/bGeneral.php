@@ -351,6 +351,8 @@ function cFile(string $nombre, array &$errores, array $extensionesValidas, strin
         }
     }
 }
+
+//funciones añadidas por mí
 function cPassword(string $cadena,array &$errores,$campo,$longMin){
     if( strlen($cadena)<$longMin ){
         $errores[$campo]="La contraseña debe tener al menos ".$longMin." caracteres";

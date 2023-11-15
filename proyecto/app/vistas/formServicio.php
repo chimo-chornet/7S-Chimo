@@ -10,6 +10,7 @@ session_start();
 </head>
 <body>
 <?php
+//Mecanismo de cierre de sesión en una hora después del último accesso
 if(isset($_SESSION['acceso'])) {
   if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']) {
       echo("La sesión se cerrará");
@@ -18,6 +19,8 @@ if(isset($_SESSION['acceso'])) {
     $_SESSION['acceso']=time();
   }
 }
+//Si existe la cookie la recogemos y sanitizamos. Después la usamos para el color del fondo.
+
 if(isset($_COOKIE['galletacolor'])){
   $color=strip_tags($_COOKIE['galletacolor']);
    echo("<Style>body{background-color:$color}</style>");

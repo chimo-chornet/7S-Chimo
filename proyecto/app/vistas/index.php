@@ -7,6 +7,7 @@ cabecera("Página principal");
   <a href="../vistas/formRegistro.php">Registro<a><br>
     <h2>Listado de servicios</h2>
 <?php
+//imprimimos la lista de servicios. Sólo títulos
 $puntero=fopen("../ficheros/servicios.txt","r");
 echo("<ul>");
 while(!feof($puntero)){

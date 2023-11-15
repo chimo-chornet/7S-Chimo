@@ -4,15 +4,18 @@ include("../libs/bGeneral.php");
 //cabecera("Modificar prefil");
 $separados=[];
 $separa=[];
+//Mecanismo de cierre de sesión en una hora después del último accesso
 
 if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']){
     echo("La sesión se cerrará");
     header("location:../manejadoresForm/cierra.php");
 }
+//Si existe la cookie la recogemos y sanitizamos. Después la usamos para el color del fondo.
+
 if(isset($_COOKIE["galletacolor"])){
     $color=$_COOKIE["galletacolor"];
 }
-
+//si el usuario no está logeado no puede acceder
 if(!isset($_SESSION["usuario"])){
 echo("Esta zona es exculsiva para usuarios logeados");
 
@@ -26,6 +29,7 @@ echo("Esta zona es exculsiva para usuarios logeados");
         $lin=fgets($puntero);
         $separa=explode(":", $lin);
 if(isset($separa[2])) {
+    //comprobamos que el usuario corresponde con el correo del fichero y mostramos los datos del usuario
     if($separa[2]===$mail) {
         if($separa[6]!=="Sin imagen") {
             echo("<br><img src=\"$separa[6]\" alt=\"foto\" width=\"100px\"><br>");
@@ -42,16 +46,19 @@ if(isset($separa[2])) {
     }
 
     fclose($puntero);
+    //establecemos el color de fondo traido por la cookie
 echo("<Style>body{background-color:$color}</style>");
-
+//formulario con botón de salida segura y cierre de sesión
     ?>
     <br>
 <a href="../vistas/formServicio.php">Alta de nuevo servicio</a><br><br>
 <a href="../vistas/formPerfil.php">Modificar perfil</a><br><br>
 <form action="" method="">
+
     <input type="button" name="salir" value="Cerrar sesión y salir" onclick="location.href='../manejadoresForm/cierra.php'">
 </form>
 <?php
+//imprime la lista de servicios completa
     $puntero=fopen("../ficheros/servicios.txt", "r");
     echo("<h2>Lista de servicios disponibles</h2>");
     echo("<ul>");

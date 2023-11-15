@@ -3,9 +3,11 @@ include("../libs/bGeneral.php");
 //include("../vistas/formRegistro.php");
 
 $errores=[];
+//variables para la subida de imágenes
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
+//recogemos los datos del formulario
 $nombre=recoge('nombre');
 $mail=recoge('email');
 $foto=recoge('foto');
@@ -13,7 +15,7 @@ $pass=recoge('contrasenya');
 $fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
-
+//comprobamos que son correctos y en caso contrario generamos los mensajes de error
 cTexto($nombre,'Nombre',$errores);
 if($nombre==""){
     $errores['nombre']="Debe introducir un nombre";
@@ -37,9 +39,9 @@ if($idioma==""){
 
 if ($_FILES['foto']['name'] =="") {
     $nombreCompleto='Sin imagen';
-    //$errores["imagen"] = "No hay imagen";
-} else {
 
+} else {
+//si todo es correcto subimos la imágen
     if (($_FILES['foto']['error'] != 0)) {
         switch ($_FILES['foto']['error']) {
             case 1:
@@ -123,6 +125,8 @@ if ($_FILES['foto']['name'] =="") {
     */
 
 }
+ //si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
+
     if(empty($errores)) {
 
         echo("Usuario registrado con éxito<br>");
@@ -134,12 +138,11 @@ if ($_FILES['foto']['name'] =="") {
     <input type="submit" name="salir" value="Volver a la página principal">
 </form>
 <?php
-
+//si hay errores los mostramos
     } else {
         include("../vistas/formRegistro.php");
         foreach($errores as $error) {
-            //include("../vistas/formRegistro.php");
-            echo($error."<br>");
+                        echo($error."<br>");
         }
     }
 

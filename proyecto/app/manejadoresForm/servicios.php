@@ -1,9 +1,15 @@
 <?php
 include("../libs/bGeneral.php");
 $errores=[];
+
+//variables para la subida de imágenes
+
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
+
+//recogida sanitizada de datos del formulario
+
 $titulo=recoge('titulo');
 $categoria=recoge('categoria');
 $descripcion=recoge('descripcion');
@@ -19,6 +25,7 @@ if(empty($_REQUEST['disponibilidad'])){
     $fotoServicio=recoge("fotoServicio");
 $valores=['Mañanas','Tardes','Completo','FinesSemana'];
 
+//comprobamos que son correctos y en caso contrario generamos los mensajes de error
 
 if($titulo==""){
     $errores['titulo']="Debe introducir un título para el servicio";
@@ -41,8 +48,9 @@ if($tipo==""){
 
 if ($_FILES['fotoServicio']['name'] =="") {
     $nombreCompleto='Sin imagen';
-    //$errores["imagen"] = "No hay imagen";
 } else {
+
+//si todo es correcto subimos la imágen
 
     if (($_FILES['fotoServicio']['error'] != 0)) {
         switch ($_FILES['fotoServicio']['error']) {
@@ -61,11 +69,11 @@ if ($_FILES['fotoServicio']['name'] =="") {
                 break;
             case 6:
                 $errores["imagen"] = "UPLOAD_ERR_NO_TMP_DIR. Falta carpeta temporal<br>";
-                // no break
+                break;
             case 7:
                 $errores["imagen"] = "UPLOAD_ERR_CANT_WRITE. No se ha podido escribir en el disco<br>";
 
-                // no break
+                break;
             default:
                 $errores["imagen"] = 'Error indeterminado.';
         }
@@ -128,6 +136,7 @@ if ($_FILES['fotoServicio']['name'] =="") {
 
 }
 
+//si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
 
 if(empty($errores)) {
 
@@ -141,7 +150,7 @@ if(empty($errores)) {
     fwrite($puntero, $linea);
     fclose($puntero);
     header("location:../vistas/privado.php");
-
+//si hay errores los mostramos
 } else {
     include("../vistas/formServicio.php");
     foreach($errores as $error) {

@@ -3,12 +3,21 @@ session_start();
 include("../libs/bGeneral.php");
 $errores=[];
 $fechaNac="";
+
+//variables para la subida de imágenes
+
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
+
+//variables de sesión
+
 $nombre=$_SESSION['usuario'];
 $mail=$_SESSION['mail'];
 $password=$_SESSION['password'];
+
+//recogida sanitizada de datos del formulario
+
 $foto=recoge('foto');
 $pass=recoge('contrasenya');
 $idioma=recoge('idioma');
@@ -25,8 +34,8 @@ if($idioma==""){
 
 if ($_FILES['foto']['name'] =="") {
     $nombreCompleto='Sin imagen';
-    //$errores["imagen"] = "No hay imagen";
-} else {
+
+   } else {
 
     if (($_FILES['foto']['error'] != 0)) {
         switch ($_FILES['foto']['error']) {
@@ -45,11 +54,11 @@ if ($_FILES['foto']['name'] =="") {
                 break;
             case 6:
                 $errores["imagen"] = "UPLOAD_ERR_NO_TMP_DIR. Falta carpeta temporal<br>";
-                // no break
+                break;
             case 7:
                 $errores["imagen"] = "UPLOAD_ERR_CANT_WRITE. No se ha podido escribir en el disco<br>";
 
-                // no break
+                break;
             default:
                 $errores["imagen"] = 'Error indeterminado.';
         }
@@ -106,9 +115,7 @@ if ($_FILES['foto']['name'] =="") {
         }
     }
 
-    /**
-    * Si hay errores volvemos a mostrar el formulario con los errores
-    */
+  //si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
 
 }
     if(empty($errores)) {
@@ -136,17 +143,12 @@ if ($_FILES['foto']['name'] =="") {
 
         $nuevoTodo=implode(PHP_EOL,$lineas);
         file_put_contents("../ficheros/usuarios.txt",$nuevoTodo);
-
-
-
-
-
         header("location:../vistas/privado.php");
 
     } else {
+        //si hay errores los mostramos
         header("location:../vistas/privado.php");
         foreach($errores as $error) {
-            //include("../vistas/formRegistro.php");
             echo($error."<br>");
         }
     }

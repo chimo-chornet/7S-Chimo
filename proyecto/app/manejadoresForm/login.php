@@ -6,13 +6,13 @@ if(!isset($_REQUEST['acceder'])) {
 }else{
     $email=recoge('mail');
     $color=recoge('colorFondo');
-
+//inicializamos la cookie
     if($color=='beige'){
         setcookie("galletacolor","beige",time()+600,"/");
     }else{
         setcookie("galletacolor","white",time()+600,"/");
     }
-
+//comprobamos que el usuario y la contraseña coinciden con los almacenados en el fichero
         $passw=recoge('loginPass');
     $ruta="../ficheros/usuarios.txt";
     $usuario="";
@@ -40,6 +40,7 @@ if(!isset($_REQUEST['acceder'])) {
         } else {
             echo("El fichero no existe");
         }
+        //Si el usuario es válido generamos los valores de la sesión
         if($usuarioValido==true) {
             if($passwordValido==true) {
                 $_SESSION["mail"]=$email;
@@ -47,8 +48,10 @@ if(!isset($_REQUEST['acceder'])) {
                 $_SESSION["password"]=$passw;
                 $_SESSION["acceso"]=time();
                 $_SESSION['ip']=$_SERVER['REMOTE_ADDR'];
-
+                //enviamos a la páginma de area privada
                 header("Location: ../vistas/privado.php");
+
+                //Si el usuario no está registrado o la contrasseña es incorrecta, añadimos esta información al fichero logLogin.txt
             } else {
                 echo("Contraseña incorrecta");
 

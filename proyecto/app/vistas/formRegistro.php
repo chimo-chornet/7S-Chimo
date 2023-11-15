@@ -1,7 +1,7 @@
 <?php
-
+//Mecanismo de cierre de sesión en una hora después del último accesso
 if(isset($_SESSION['acceso'])){
-if(time()-($_SESSION['acceso'])>20){
+if(time()-($_SESSION['acceso'])>3600){
   echo("La sesión se cerrará");
   header("location:../manejadoresForm/cierra.php");
 }

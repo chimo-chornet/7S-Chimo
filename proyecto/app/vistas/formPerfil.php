@@ -2,10 +2,12 @@
 session_start();
 include("../libs/bGeneral.php");
 cabecera();
+//Si existe la cookie la recogemos y sanitizamos. Después la usamos para el color del fondo.
 if(isset($_COOKIE['galletacolor'])){
   $color=strip_tags($_COOKIE['galletacolor']);
    echo("<Style>body{background-color:$color}</style>");
 }
+//Mecanismo de cierre de sesión en una hora después del último accesso
 if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']){
   echo("La sesión se cerrará");
   header("location:../manejadoresForm/cierra.php");
