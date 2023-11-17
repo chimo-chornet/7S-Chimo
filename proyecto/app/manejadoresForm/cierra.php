@@ -3,6 +3,7 @@ session_start();
 include("../libs/bGeneral.php");
 cabecera("Cerrar");
 //destruimos la sesión y la cookie
+session_unset();
 session_destroy();
 setcookie("galletacolor","",time()-100);
 
