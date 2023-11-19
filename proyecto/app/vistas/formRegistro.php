@@ -1,5 +1,11 @@
 <?php
 //Mecanismo de cierre de sesión en una hora después del último accesso
+
+/***
+El control de cierre por inactividad y cualquier otro mecanismo de seguridad lo ponemos sólo en la zona privada de la aplicación
+
+***/
+
 if(isset($_SESSION['acceso'])){
 if(time()-($_SESSION['acceso'])>3600){
   echo("La sesión se cerrará");
