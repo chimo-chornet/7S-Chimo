@@ -8,6 +8,12 @@ cabecera("Página principal");
     <h2>Listado de servicios</h2>
 <?php
 //imprimimos la lista de servicios. Sólo títulos
+
+/**
+  Te falta hacer las comprobaciones para evitar errores en los ficheros, como en los ejemplos.
+  Comprobar si existe, si la lectura ha ido bien, ...
+**/
+
 $puntero=fopen("../ficheros/servicios.txt","r");
 echo("<ul>");
 while(!feof($puntero)){
