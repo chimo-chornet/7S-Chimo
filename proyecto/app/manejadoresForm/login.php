@@ -19,6 +19,8 @@ if(!isset($_REQUEST['acceder'])) {
     
     /***
     El código te queda más claro y más fácil de actualizar si pones esto en una función que devuelva false o u array con los datos
+    En el momento del login sacamos todos los datos del usuario y nos guardamos en una variable de sesión la ruta de la imagen, 
+    así ya no tenemos que consultarla más adelante
     ***/
     
     if(cMail($email)!=0) {
