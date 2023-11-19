@@ -11,6 +11,11 @@ $max_file_size='5000000';
 $dir="../ficheros/fotos";
 
 //variables de sesión
+/**
+No es necesario volcar las variables de sesión en otras variables
+Los mismos comentarios con respecto a confog.php, control de zona privada y la función cFile
+
+**/
 
 $nombre=$_SESSION['usuario'];
 $mail=$_SESSION['mail'];
