@@ -16,6 +16,11 @@ if(!isset($_REQUEST['acceder'])) {
         $passw=recoge('loginPass');
     $ruta="../ficheros/usuarios.txt";
     $usuario="";
+    
+    /***
+    El código te queda más claro y más fácil de actualizar si pones esto en una función que devuelva false o u array con los datos
+    ***/
+    
     if(cMail($email)!=0) {
         if(file_exists($ruta)) {
             $puntero=fopen($ruta, "r");
@@ -43,6 +48,7 @@ if(!isset($_REQUEST['acceder'])) {
         //Si el usuario es válido generamos los valores de la sesión
         if($usuarioValido==true) {
             if($passwordValido==true) {
+                
                 $_SESSION["mail"]=$email;
                 $_SESSION["usuario"]=$usuario;
                 $_SESSION["password"]=$passw;
