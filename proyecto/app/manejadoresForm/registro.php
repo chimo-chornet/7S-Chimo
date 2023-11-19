@@ -4,6 +4,13 @@ include("../libs/bGeneral.php");
 
 $errores=[];
 //variables para la subida de imágenes
+/****
+En la parte privada de la aplicación tenemos que bloquear para que no pueda entrar por la URL un usuario no logueado, lo hacemos
+con sesiones
+En el login inicializamos las variables y por ejemplo con $_SESSION["mail"]=$email; hacemos la comprobación
+if(!isset($_SESSION["mail"]=$email){
+header("location: -----A login o a inicio ------)
+****/
 /*
 Estas variables es mejor ponerlas en una librería de configuración config.php
 */
