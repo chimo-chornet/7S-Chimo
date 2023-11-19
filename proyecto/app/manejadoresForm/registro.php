@@ -4,12 +4,19 @@ include("../libs/bGeneral.php");
 
 $errores=[];
 //variables para la subida de imágenes
+/*
+Estas variables es mejor ponerlas en una librería de configuración config.php
+*/
+
 $extensionesValidas=['jpg','png','gif'];
 $max_file_size='5000000';
 $dir="../ficheros/fotos";
 //recogemos los datos del formulario
 $nombre=recoge('nombre');
 $mail=recoge('email');
+/*
+La foto no se recoge porque no llega a $_REQUEST
+*/
 $foto=recoge('foto');
 $pass=recoge('contrasenya');
 $fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
@@ -17,6 +24,10 @@ $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
 cTexto($nombre,'Nombre',$errores);
+/*
+No es necesario comprobar si los campos son vacíos. Podemos hacerlo con las propias funciones de validación.
+Los campos como radio, select o check hay que validar que traen un valor de los de la lista para evitar un posible ataque.
+*/
 if($nombre==""){
     $errores['nombre']="Debe introducir un nombre";
 }
@@ -35,7 +46,10 @@ if($fechaNac>'2005-11-13'){
 if($idioma==""){
     $errores['idioma']="Debe introducir un idioma prederido";
 }
-
+/**
+Antes de subir la foto comprobamos sino hay errores en los campos anteriores
+La foto la validamos con la función cFile
+**/
 
 if ($_FILES['foto']['name'] =="") {
     $nombreCompleto='Sin imagen';
@@ -128,7 +142,10 @@ if ($_FILES['foto']['name'] =="") {
  //si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
 
     if(empty($errores)) {
-
+/**
+        Comprobamos los posibles errores en la apertura y escritura de ficheros
+**/
+        
         echo("Usuario registrado con éxito<br>");
         $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreCompleto.":".time().PHP_EOL;
         $puntero=fopen("../ficheros/usuarios.txt", "a+");
