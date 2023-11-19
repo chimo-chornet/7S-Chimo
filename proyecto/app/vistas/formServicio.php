@@ -11,6 +11,12 @@ session_start();
 <body>
 <?php
 //Mecanismo de cierre de sesión en una hora después del último accesso
+/*
+Tanto el control de las sesiones como lo de las cookies mejor ponerlo en los manejadores form que en las vistas.
+En las vistas intentamos no poner el menor código php posible.
+El echo que pones no se verá nunca porque después hay un header
+*/
+
 if(isset($_SESSION['acceso'])) {
   if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']) {
       echo("La sesión se cerrará");
