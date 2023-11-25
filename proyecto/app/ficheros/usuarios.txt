@@ -1,7 +1,10 @@
-José Guriérrez:lopo:guti@mail.com:1987-11-11:esp:Tipo con barba trabajador:../ficheros/fotos\1699997357carahombre3.jpg:1699997357
-Pedro Patas:lip:pedro@mail.com:1998-05-12:esp:asimismo:../ficheros/fotos\carahombre2.jpg:1699993030
-Juan Mator:lopo:jmator@bmail.com:1998-11-25:esp:Guapete:../ficheros/fotos\1699993561carahombre2.jpg:1699993561
-Juan Mator:lopo:jmator@bmail.com:1998-11-25:esp:Guapete:../ficheros/fotos\1699993591carahombre2.jpg:1699993591
-Marian Blasco:lopo:mblasco@bmail.com:1998-08-22:esp:Chica trabajadora:../ficheros/fotos\caramujer2.jpg:1699995121
+José Gutiérrez:lopo:guti@mail.com:1999-08-09:esp:Tipo con barba trabajador a tope mogollón:../ficheros/fotos\17009192561699988065carahombre3.jpg:1700919256
+Pedro Patas:plopo:pedro@mail.com:1998-05-12:esp:asimismo:../ficheros/fotos\carahombre2.jpg:1699993030
+Juan Mator:juanlopo:jmator@bmail.com:1998-11-25:esp:Guapete:../ficheros/fotos\1699993561carahombre2.jpg:1699993561
+Marian Blasco:mlopo:mblasco@bmail.com:1998-08-22:esp:Chica trabajadora:../ficheros/fotos\caramujer2.jpg:1699995121
 Pedro Pérez:pperez:pperez@bmail.com:1985-35-89:esp:Probador:../ficheros/fotos\1699996039carahombre1.jpg:1699996039
 Laura Universidad:pancha:laura@mail.com:2001-10-03:esp:Estudiante y trabajadora:../ficheros/fotos\1699997428caramujer1.jpg:1699997428
+Pepita Pulgarcita:lopo:pedro@mail.com:1985-06-11:esp:uNA PEPITA:../ficheros/fotos\17009181461699994546caramujer1.jpg:1700918146
+Perico Palotes:pericolopo:perico@mail.com:1999-05-24:esp:Otro tio:../ficheros/fotos\17009359591699996039carahombre1.jpg:1700935959
+Pedrito Colores:lipo:pedrito@mail.com:2000-01-01:esp:Que mas:../ficheros/fotos\17009362451699993561carahombre2.jpg:1700936245
+Manuel Bombo:manololopo:manolo@mail.com:2002-05-15:esp:Un Manolo Bomb:../ficheros/fotos\17009371071699973488carahombre1.jpg:1700937107

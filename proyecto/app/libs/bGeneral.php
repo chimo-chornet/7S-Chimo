@@ -223,9 +223,10 @@ function cRadio(string $text, string $campo, array &$errores, array $valores, bo
     }
     if (!$requerido && $text == "") {
         return true;
-    }
+    }else{
     $errores[$campo] = "Error en el campo $campo";
     return false;
+}
 }
 
 /**
@@ -289,7 +290,7 @@ function cFile(string $nombre, array &$errores, array $extensionesValidas, strin
         /*
              * Guardamos nombre del fichero en el servidor
             */
-        $directorioTemp = $_FILES['imagen']['tmp_name'];
+        $directorioTemp = $_FILES[$nombre]['tmp_name'];
         /*
              * Calculamos el tamaño del fichero
             */
@@ -361,79 +362,15 @@ function cPassword(string $cadena,array &$errores,$campo,$longMin){
         return true;
     }
 }
-function subeImagen($imagen,array &$errores,$extensionesValidas,$max_file_size,$dir)
-{
 
-    if (($_FILES[$imagen]['error'] != 0)) {
-        switch ($_FILES[$imagen]['error']) {
-            case 1:
-                $errores[$imagen] = "UPLOAD_ERR_INI_SIZE. Fichero demasiado grande";
-                break;
-            case 2:
-                $errores[$imagen] = "UPLOAD_ERR_FORM_SIZE. El fichero es demasiado grande";
-                break;
-            case 3:
-                $errores[$imagen] = "UPLOAD_ERR_PARTIAL. El fichero no se ha podido subir entero";
-                break;
-            case 4:
-                $errores[$imagen] = "UPLOAD_ERR_NO_FILE. No se ha podido subir el fichero";
-                break;
-            case 6:
-                $errores[$imagen] = "UPLOAD_ERR_NO_TMP_DIR. Falta carpeta temporal<br>";
-                // no break;
-            case 7:
-                $errores[$imagen] = "UPLOAD_ERR_CANT_WRITE. No se ha podido escribir en el disco<br>";
-            // no break
-            default:
-                $errores["imagen"] = 'Error indeterminado.';
-        }
-    } else {
-
-        $nombreArchivo = $_FILES[$imagen]['name'];
-        $directorioTemp = $_FILES[$imagen]['tmp_name'];
-        $tamanyoFile = filesize($directorioTemp);
-        $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
-
-        /*
-        * Comprobamos la extensión del archivo dentro de la lista que hemos definido al principio
-        */
-        if (!in_array($extension, $extensionesValidas)) {
-            $errores["imagen"] = "La extensión del archivo no es válida";
-        }
-        /*
-        * Comprobamos el tamaño del archivo
-        */
-        if ($tamanyoFile > $max_file_size) {
-            $errores[$imagen] = "La imagen debe de tener un tamaño inferior a 50 kb";
-        }
-
-        /*
-        * Si no ha habido errores, almacenamos el archivo en ubicación definitiva si no hay errores
-        */
-        if (empty($errores)) {
-            /**
-             * Tenemos que buscar un nombre único para guardar el fichero de manera definitiva
-             * Añadimos microtime() al nombre del fichero si ya existe un archivo guardado con ese nombre.
-             * */
-            $nombreArchivo = is_file($dir . DIRECTORY_SEPARATOR . $nombreArchivo) ? time() . $nombreArchivo : $nombreArchivo;
-            $nombreCompleto = $dir . DIRECTORY_SEPARATOR . $nombreArchivo;
-            /**
-             * Movemos el fichero a la ubicación definitiva.
-             * */
-            if (move_uploaded_file($directorioTemp, $nombreCompleto)) {
-
-                return $nombreCompleto;
-            } else {
-                $errores[$imagen]= "Ha habido un error al subir el fichero";
-                return false;
-            }
-        }
-    }
-}
-function cMail($cadena){
+function cMail($cadena,$campo,array &$errores){
     $patron="/^[a-zñ][a-zñ\-1-9]{2,}@[a-z]{2,}[\.][a-z]{2,}$/i";
-    return preg_match($patron,$cadena);
+if($cadena!="") {
+    return preg_match($patron, $cadena);
+}else{
+    $errores[$campo]="Error en el Email";
 }
+    }
 function fechaCorrecta(string $cadena,array &$errores)
 {
 
@@ -458,5 +395,35 @@ function fechaUnix($cadena,$tipo='eu'){
         $salida=date('Y-m-d',$cadena);
       }
       return $salida;
+}
+function compruebaUsuario($passw,$email,$ruta,array &$errores)
+{
+    if(cMail($email,'email',$errores)!=0) {
+        if(file_exists($ruta)) {
+            $puntero=fopen($ruta, "r");
+            $usuarioValido=false;
+            $passwordValido=false;
+            while(!feof($puntero)) {
+                $linea=fgets($puntero);
+                $separados=explode(":", $linea);
+                if(isset($separados[2])) {
+                    if($separados[2]==$email) {
+                        $usuarioValido=true;
+                        if($separados[1]==$passw) {
+                            $passwordValido=true;
+                            $usuario=$separados[0];
+                            return $usuario;
+                        }
+                    }
+
+                }
+            }
+
+            fclose($puntero);
+        } else {
+            $errores['usuario']="Usuario no válido";
+            return false;
+        }
+    }
 }
     ?>

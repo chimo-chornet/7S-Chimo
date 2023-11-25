@@ -8,3 +8,6 @@ Clases de inglés:Ensenanza:Clases particulares de ingles:Pago:10:Valencia:Sin i
 Mudanzas:Trabajo:Mudanzas de toda clase con camión propio:Pago:20:Valencia:Sin imagen:-Tardes-:1699970308
 Mudanzas:Trabajo:Mudanzas de toda clase con camión propio:Pago:20:Valencia:Sin imagen:-Tardes-:1699970387
 Juegos de rol:Ocio:Disponible para partidas de Rol:Intercambio::Valencia:../ficheros/fotos\carahombre1.jpg:-FinesSemana-:1699970437
+Pelea de gallos:Ocio:Iniciación al combate con aves de corral:Pago:5:Málaga:../ficheros/fotos\17009376801699881487caballito.png:-FinesSemana-:1700937680
+Pollos Asados:Trabajo:Pollos asados:Pago:5:Valencia:../ficheros/fotos\17009384881699881487caballito.png:-Mañanas-:1700938488
+Pesca de perros:Trabajo:Recuperacion de canes caidos al agua:Pago:6:Valencia:Sin imagen:-Completo-:1700938889

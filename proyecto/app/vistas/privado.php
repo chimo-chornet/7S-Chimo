@@ -17,7 +17,7 @@ if(isset($_COOKIE["galletacolor"])){
 }
 //si el usuario no está logeado no puede acceder
 if(!isset($_SESSION["usuario"])){
-echo("Esta zona es exculsiva para usuarios logeados");
+echo("Esta zona es exculsiva para usuarios logueados");
 
 
 }else{

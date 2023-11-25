@@ -6,13 +6,6 @@ El control de cierre por inactividad y cualquier otro mecanismo de seguridad lo 
 
 ***/
 
-if(isset($_SESSION['acceso'])){
-if(time()-($_SESSION['acceso'])>3600){
-  echo("La sesión se cerrará");
-  header("location:../manejadoresForm/cierra.php");
-}
-}
-
 
 ?>
 <h1>Formulario de registro</h1>

@@ -13,19 +13,19 @@ cabecera("Página principal");
   Te falta hacer las comprobaciones para evitar errores en los ficheros, como en los ejemplos.
   Comprobar si existe, si la lectura ha ido bien, ...
 **/
-
-$puntero=fopen("../ficheros/servicios.txt","r");
-echo("<ul>");
-while(!feof($puntero)){
-$linea=fgets($puntero);
-$separados=explode(":",$linea);
-if($linea!="") {
-    echo("<li>".$separados[0]."</li>");
-}
-}
-
+if(is_file("../ficheros/servicios.txt")) {
+    if(($puntero=fopen("../ficheros/servicios.txt", "r"))){
+    echo("<ul>");
+    while(!feof($puntero)) {
+        $linea=fgets($puntero);
+        $separados=explode(":", $linea);
+        if($linea!="") {
+            echo("<li>".$separados[0]."</li>");
+        }
+    }
+    }
 echo("</ul>");
 fclose($puntero);
-
+}
 pie();
 ?>

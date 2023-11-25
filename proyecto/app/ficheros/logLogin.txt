@@ -39,3 +39,14 @@ password incorrecto:  con el usuario mblasco@bmail.com 1699995740
 Usuario no registrado: chimochornet@gmail.com con password  1699995746
 password incorrecto:  con el usuario laura@mail.com 1699997441
 password incorrecto: Pancha con el usuario laura@mail.com 1699997476
+Usuario no registrado: guti@mail.com con password lopo 1700916170
+password incorrecto: LOPO con el usuario pedro@mail.com 1700918165
+Usuario no registrado: perico@mial.com con password pericolopo 1700935880
+ACCESO incorrecto: lopo con el usuario guti@mail.com  con password lopo1700940479
+ACCESO incorrecto: asd con el usuario guti@mail.com  con password asd1700940514
+ACCESO incorrecto:  con el usuario   con password 1700940517
+ACCESO incorrecto:  con el usuario guti@mail.com  con password 1700940575
+ACCESO incorrecto:  con el usuario guti@mail.com  con password 1700940590
+ACCESO incorrecto: loo con el usuario chimochornet@gmail.com  con password loo1700940596
+ACCESO incorrecto:  con el usuario   con password 1700940598
+ACCESO incorrecto:  con el usuario   con password 1700940600

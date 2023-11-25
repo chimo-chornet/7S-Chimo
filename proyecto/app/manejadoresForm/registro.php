@@ -1,5 +1,6 @@
 <?php
 include("../libs/bGeneral.php");
+include("../libs/config.php");
 //include("../vistas/formRegistro.php");
 
 $errores=[];
@@ -10,135 +11,51 @@ con sesiones
 En el login inicializamos las variables y por ejemplo con $_SESSION["mail"]=$email; hacemos la comprobación
 if(!isset($_SESSION["mail"]=$email){
 header("location: -----A login o a inicio ------)
+
+
+
+En la página de registro todavía no ha pasado por el login.
 ****/
 /*
 Estas variables es mejor ponerlas en una librería de configuración config.php
 */
 
-$extensionesValidas=['jpg','png','gif'];
-$max_file_size='5000000';
-$dir="../ficheros/fotos";
 //recogemos los datos del formulario
 $nombre=recoge('nombre');
 $mail=recoge('email');
 /*
 La foto no se recoge porque no llega a $_REQUEST
 */
-$foto=recoge('foto');
+
 $pass=recoge('contrasenya');
 $fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
 cTexto($nombre,'Nombre',$errores);
+cTexto($descripcion,'Descripcion',$errores);
+$valores=['esp','eng'];
+cRadio($idioma,'idioma',$errores,$valores);
+cPassword($pass,$errores,'password',4);
+
 /*
 No es necesario comprobar si los campos son vacíos. Podemos hacerlo con las propias funciones de validación.
 Los campos como radio, select o check hay que validar que traen un valor de los de la lista para evitar un posible ataque.
 */
-if($nombre==""){
-    $errores['nombre']="Debe introducir un nombre";
-}
-if($mail==""){
-    $errores['email']="Debe introducir una dirección de correo electrónico";
-    }
-    if($pass==""){
-        $errores['password']="Debe introducir una constraseña";
-    }
-if($fechaNac==""){
-    $errores['fecha']="Debe introducir una fecha";
-}
-if($fechaNac>'2005-11-13'){
-    $errores['fecha']="Solo se pueden registrar personas mayores de 18 años";
-}
-if($idioma==""){
-    $errores['idioma']="Debe introducir un idioma prederido";
-}
+
 /**
 Antes de subir la foto comprobamos sino hay errores en los campos anteriores
 La foto la validamos con la función cFile
 **/
 
 if ($_FILES['foto']['name'] =="") {
-    $nombreCompleto='Sin imagen';
+    $nombreFoto='Sin imagen';
 
 } else {
-//si todo es correcto subimos la imágen
-    if (($_FILES['foto']['error'] != 0)) {
-        switch ($_FILES['foto']['error']) {
-            case 1:
-                $errores["imagen"] = "UPLOAD_ERR_INI_SIZE. Fichero demasiado grande";
-                break;
-            case 2:
-                $errores["imagen"] = "UPLOAD_ERR_FORM_SIZE. El fichero es demasiado grande";
-                break;
-            case 3:
-                $errores["imagen"] = "UPLOAD_ERR_PARTIAL. El fichero no se ha podido subir entero";
-                break;
-            case 4:
-                $errores["imagen"] = "UPLOAD_ERR_NO_FILE. No se ha podido subir el fichero";
+    //si todo es correcto subimos la imágen
 
-                break;
-            case 6:
-                $errores["imagen"] = "UPLOAD_ERR_NO_TMP_DIR. Falta carpeta temporal<br>";
-                // no break
-            case 7:
-                $errores["imagen"] = "UPLOAD_ERR_CANT_WRITE. No se ha podido escribir en el disco<br>";
-
-                // no break
-            default:
-                $errores["imagen"] = 'Error indeterminado.';
-        }
-    } else {
-        /**
-         * Guardamos el nombre original del fichero
-         **/
-        $nombreArchivo = $_FILES['foto']['name'];
-        /*
-         * Guardamos nombre del fichero en el servidor
-        */
-        $directorioTemp = $_FILES['foto']['tmp_name'];
-        /*
-         * Calculamos el tamaño del fichero
-        */
-        $tamanyoFile = filesize($directorioTemp);
-        /*
-        * Extraemos la extensión del fichero, desde el último punto. Si hubiese doble extensión, no lo
-        * tendría en cuenta.
-        */
-        $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
-
-        /*
-        * Comprobamos la extensión del archivo dentro de la lista que hemos definido al principio
-        */
-        if (!in_array($extension, $extensionesValidas)) {
-            $errores["imagen"] = "La extensión del archivo no es válida";
-        }
-        /*
-        * Comprobamos el tamaño del archivo
-        */
-        if ($tamanyoFile > $max_file_size) {
-            $errores["imagen"] = "La imagen debe de tener un tamaño inferior a 50 kb";
-        }
-
-        /*
-        * Si no ha habido errores, almacenamos el archivo en ubicación definitiva si no hay errores
-        */
-        if (empty($errores)) {
-            /**
-             * Tenemos que buscar un nombre único para guardar el fichero de manera definitiva
-             * Añadimos microtime() al nombre del fichero si ya existe un archivo guardado con ese nombre.
-             * */
-            $nombreArchivo = is_file($dir . DIRECTORY_SEPARATOR . $nombreArchivo) ? time() . $nombreArchivo : $nombreArchivo;
-            $nombreCompleto = $dir . DIRECTORY_SEPARATOR . $nombreArchivo;
-            /**
-             * Movemos el fichero a la ubicación definitiva.
-             * */
-            if (move_uploaded_file($directorioTemp, $nombreCompleto)) {
-                //echo "<br> El fichero \"$nombreCompleto\" ha sido guardado";
-            } else {
-                $errores["imagen"]= "Ha habido un error al subir el fichero";
-            }
-        }
+    if(($nombreFoto=cFile('foto',$errores,$extensionesValidas,$dir,$max_file_size))==false){
+        $errores['foto']="Error en la subida de la fotografía";
     }
 
     /**
@@ -152,12 +69,16 @@ if ($_FILES['foto']['name'] =="") {
 /**
         Comprobamos los posibles errores en la apertura y escritura de ficheros
 **/
-        
+
         echo("Usuario registrado con éxito<br>");
-        $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreCompleto.":".time().PHP_EOL;
-        $puntero=fopen("../ficheros/usuarios.txt", "a+");
-        fwrite($puntero, $linea);
-        fclose($puntero);?>
+        $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreFoto.":".time().PHP_EOL;
+        if($puntero=fopen("../ficheros/usuarios.txt", "a+")) {
+            fwrite($puntero, $linea);
+            fclose($puntero);
+        }else{
+            $errores['fichero']="Error en la apertura del fichero";
+        }
+?>
         <form action="../vistas/index.php" method="">
     <input type="submit" name="salir" value="Volver a la página principal">
 </form>
