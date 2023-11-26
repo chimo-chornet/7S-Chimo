@@ -50,3 +50,5 @@ ACCESO incorrecto:  con el usuario guti@mail.com  con password 1700940590
 ACCESO incorrecto: loo con el usuario chimochornet@gmail.com  con password loo1700940596
 ACCESO incorrecto:  con el usuario   con password 1700940598
 ACCESO incorrecto:  con el usuario   con password 1700940600
+ACCESO incorrecto: Con el usuario guti@mail.com  con password LOPO1700999686
+ACCESO incorrecto: Con el usuario guti@mail.com  con password LOPO1700999695

@@ -21,31 +21,21 @@ echo("Esta zona es exculsiva para usuarios logueados");
 
 
 }else{
-    $usuario=$_SESSION["usuario"];
-    $mail=$_SESSION["mail"];
-    echo("Bienvenido usuario: ".$usuario."<br>");
-    $puntero=fopen("../ficheros/usuarios.txt", "r");
-    while(!feof($puntero)) {
-        $lin=fgets($puntero);
-        $separa=explode(":", $lin);
-if(isset($separa[2])) {
-    //comprobamos que el usuario corresponde con el correo del fichero y mostramos los datos del usuario
-    if($separa[2]===$mail) {
-        if($separa[6]!=="Sin imagen") {
-            echo("<br><img src=\"$separa[6]\" alt=\"foto\" width=\"100px\"><br>");
+
+      echo("Bienvenido usuario: ".$_SESSION["usuario"]."<br>");
+        if($_SESSION['imagen']!=="Sin imagen") {
+            echo("<br><img src=\"".$_SESSION['imagen']."\" alt=\"foto\" width=\"100px\"><br>");
+        }else{
+            echo($_SESSION['imagen']."<br>");
         }
-        echo("<b>E-mail: </b>".$separa[2]."<br>");
-        echo("<b>Fecha de nacimiento: </b>".$separa[3]."<br>");
-        echo("<b>Lenguaje preferido: </b>".$separa[4]."<br>");
-        echo("<b>Descripción: </b>".$separa[5]."<br>");
-        $_SESSION["descripcion"]=$separa[5];
-    } else {
+        echo("<b>E-mail: </b>".$_SESSION['mail']."<br>");
+        echo("<b>Fecha de nacimiento: </b>".$_SESSION['nacimiento']."<br>");
+        echo("<b>Lenguaje preferido: </b>".$_SESSION['idioma']."<br>");
+        echo("<b>Descripción: </b>".$_SESSION['descripcion']."<br>");
 
-    }
-}
-    }
 
-    fclose($puntero);
+
+
     //establecemos el color de fondo traido por la cookie
 echo("<Style>body{background-color:$color}</style>");
 //formulario con botón de salida segura y cierre de sesión

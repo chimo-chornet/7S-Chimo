@@ -17,7 +17,10 @@ $pass=recoge('contrasenya');
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 
-
+cTexto($descripcion,'Descripcion',$errores,300);
+$valores=['esp','eng'];
+cRadio($idioma,'idioma',$errores,$valores);
+cPassword($pass,$errores,'password',4);
 if($pass==""){
     $errores['password']="Debe introducir una constraseña";
 }
@@ -65,13 +68,14 @@ if($nombreFoto==false){
 
         $nuevoTodo=implode(PHP_EOL,$lineas);
         file_put_contents("../ficheros/usuarios.txt",$nuevoTodo);
-
-
+        $_SESSION['imagen']=$nombreFoto;
+        $_SESSION['descripcion']=$descripcion;
+        $_SESSION['idioma']=$idioma;
         header("location:../vistas/privado.php");
 
     } else {
         //si hay errores los mostramos
-        header("location:../vistas/privado.php");
+       // header("location:../vistas/privado.php");
         foreach($errores as $error) {
             echo($error."<br>");
         }

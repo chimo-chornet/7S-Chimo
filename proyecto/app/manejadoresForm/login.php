@@ -30,6 +30,20 @@ if(!isset($_REQUEST['acceder'])) {
 
     //Si el usuario es válido generamos los valores de la sesión
     if(($usuario=compruebaUsuario($passw, $email,$ruta, $errores))!=false) {
+        $puntero=fopen("../ficheros/usuarios.txt", "r");
+    while(!feof($puntero)) {
+        $lin=fgets($puntero);
+        $separa=explode(":", $lin);
+            if($separa[2]==$email) {
+                $_SESSION["imagen"]=$separa[6];
+                $_SESSION["mail"]=$separa[2];
+                $_SESSION["nacimiento"]=$separa[3];
+                $_SESSION["idioma"]=$separa[4];
+                $_SESSION["descripcion"]=$separa[5];
+            }
+    }
+
+    fclose($puntero);
 
         $_SESSION["mail"]=$email;
         $_SESSION["usuario"]=$usuario;
