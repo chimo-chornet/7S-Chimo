@@ -1,12 +1,28 @@
 <?php
-
+session_start();
 include("../libs/bGeneral.php");
 include("../libs/config.php");
+include('../libs/consultas.php');
 $errores=[];
 //si el usuario no está logeado no puede acceder
-if(!isset($_SESSION["usuario"])) {
-    echo("Esta zona es exculsiva para usuarios logueados");
-}
+
+if($_SESSION['nivel']<1){
+    header("location:../manejadoresForm/cierra.php");
+    }
+    if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']){
+        echo("La sesión se cerrará");
+        header("location:../manejadoresForm/cierra.php");
+    }else{
+        $_SESSION['acceso']=time();
+    }
+    //Si existe la cookie la recogemos y sanitizamos. Después la usamos para el color del fondo.
+
+    if(isset($_COOKIE["galletacolor"])){
+        $color=$_COOKIE["galletacolor"];
+    }
+    //establecemos el color de fondo traido por la cookie
+echo("<Style>body{background-color:$color}</style>");
+
 
 //recogida sanitizada de datos del formulario
 
@@ -18,15 +34,20 @@ $precio=recoge('precio');
 $ubicacion=recoge('ubicacion');
 $disponibilidad=recogeArray('disponibilidad');
 
+
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
 
 
     cTexto($titulo,'titulo',$errores);
     cTexto($descripcion,'descripcion',$errores,50,1);
     cNum($precio,'precio',$errores);
-    $valTipo=['Pago','Intercambio'];
+    $valTipo=['0','1'];
     cRadio($tipo,'tipo',$errores,$valTipo);
-    $valores=['Mañanas','Tardes','Completo','FinesSemana'];
+    $valores=[];
+    $val=valoresDisponibilidad($errores);
+    foreach($val as $clave=>$valor){
+        $valores[]=$clave;
+    }
     cCheck($disponibilidad,'disponibilidad',$errores,$valores);
     cTexto($ubicacion,'ubicacion',$errores);
 
@@ -41,22 +62,30 @@ if (($nombreCompleto=cFile('fotoServicio', $errores, $extensionesValidas, $dir, 
 
 if(empty($errores)) {
 
-
-    $disponible="";
-    foreach($disponibilidad as $disp){
-        $disponible=$disponible."-".$disp."-";
-    }
-    $linea=$titulo.":".$categoria.":".$descripcion.":".$tipo.":".$precio.":".$ubicacion.":".$nombreCompleto.":".$disponible.":".time().PHP_EOL;
-    $puntero=fopen("../ficheros/servicios.txt", "a+");
-    fwrite($puntero, $linea);
-    fclose($puntero);
-    header("location:../vistas/privado.php");
-//si hay errores los mostramos
-} else {
-    include("../vistas/formServicio.php");
+    $idServicio=registraServicio($titulo,$_SESSION['id_usuario'],$descripcion,$precio,$tipo,$nombreCompleto,$errores);
     foreach($errores as $error) {
 
         echo($error."<br>");
     }
+
+
+    foreach($disponibilidad as $disp){
+        insertaDisponibilidadServicio($idServicio,$disp);
+
+    }
+    /*$linea=$titulo.":".$categoria.":".$descripcion.":".$tipo.":".$precio.":".$ubicacion.":".$nombreCompleto.":".$disponible.":".time().PHP_EOL;
+    $puntero=fopen("../ficheros/servicios.txt", "a+");
+    fwrite($puntero, $linea);
+    fclose($puntero);
+    */
+    header("location:../vistas/privado.php");
+//si hay errores los mostramos
+} else {
+
+    foreach($errores as $error) {
+
+        echo($error."<br>");
+    }
+    include("../vistas/formServicio.php");
 }
 ?>

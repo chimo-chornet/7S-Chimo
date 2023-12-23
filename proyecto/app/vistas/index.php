@@ -13,6 +13,7 @@ cabecera("Página principal");
   Te falta hacer las comprobaciones para evitar errores en los ficheros, como en los ejemplos.
   Comprobar si existe, si la lectura ha ido bien, ...
 **/
+/*
 if(is_file("../ficheros/servicios.txt")) {
     if(($puntero=fopen("../ficheros/servicios.txt", "r"))){
     echo("<ul>");
@@ -26,6 +27,11 @@ if(is_file("../ficheros/servicios.txt")) {
     }
 echo("</ul>");
 fclose($puntero);
+}*/
+include('../libs/consultas.php');
+$servicios=listaServiciosIndex();
+foreach($servicios as $linea){
+    echo("<a href=\"../manejadoresForm/paginaServicio.php?id_servicio=".$linea['id_servicios']."\">".$linea['titulo']." - ".$linea['descripcion']."</a><br>");
 }
 pie();
 ?>

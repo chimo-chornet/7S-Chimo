@@ -169,6 +169,7 @@ function recogeArray(string $var): array
 
 function cTexto(string $text, string $campo, array &$errores, int $max = 30, int $min = 1, bool $espacios = TRUE, bool $case = TRUE): bool
 {
+
     $case = ($case === TRUE) ? "i" : "";
     $espacios = ($espacios === TRUE) ? " " : "";
     if ((preg_match("/^[a-zñ$espacios]{" . $min . "," . $max . "}$/u$case", sinTildes($text)))) {
@@ -217,6 +218,18 @@ function cNum(string $num, string $campo, array &$errores, bool $requerido = TRU
  * @return boolean
  */
 function cRadio(string $text, string $campo, array &$errores, array $valores, bool $requerido = TRUE)
+{
+    if (in_array($text, $valores)) {
+        return true;
+    }
+    if (!$requerido && $text == "") {
+        return true;
+    }else{
+    $errores[$campo] = "Error en el campo $campo";
+    return false;
+}
+}
+function cSelect(string $text, string $campo, array &$errores, array $valores, bool $requerido = TRUE)
 {
     if (in_array($text, $valores)) {
         return true;
@@ -425,5 +438,13 @@ function compruebaUsuario($passw,$email,$ruta,array &$errores)
             return false;
         }
     }
+}
+function encriptar($password, $cost=10) {
+    return password_hash($password, PASSWORD_DEFAULT, ['cost' => $cost]);
+}
+
+function comprobarhash($pass, $passBD) {
+    // Primero comprobamos si se ha empleado una contraseña correcta:
+    return password_verify($pass, $passBD);
 }
     ?>

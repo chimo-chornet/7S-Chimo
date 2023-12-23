@@ -1,6 +1,8 @@
 <?php
 include("../libs/bGeneral.php");
 include("../libs/config.php");
+//include('../libs/conexion.php');
+include('../libs/consultas.php');
 //include("../vistas/formRegistro.php");
 
 $errores=[];
@@ -27,16 +29,22 @@ $mail=recoge('email');
 La foto no se recoge porque no llega a $_REQUEST
 */
 
-$pass=recoge('contrasenya');
+$passw=recoge('contrasenya');
 $fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
 cTexto($nombre,'Nombre',$errores);
 cTexto($descripcion,'Descripcion',$errores);
-$valores=['esp','eng'];
-cRadio($idioma,'idioma',$errores,$valores);
-cPassword($pass,$errores,'password',4);
+compruebaIdiomas($idioma,$errores);
+cPassword($passw,$errores,'password',4);
+$pass=encriptar($passw);
+$nivel=1;
+$activo=0;
+$token=bin2hex(openssl_random_pseudo_bytes(64));
+$validez=time()+(3600*24);
+$mensaje='Para activar su cuenta pulse en el siguiente enlace http://localhost/dwes/7S-Chimo/proyecto/app/public/activar_cuenta.php?token='.$token;
+$sujeto='Activar cuenta';
 
 /*
 No es necesario comprobar si los campos son vacíos. Podemos hacerlo con las propias funciones de validación.
@@ -70,14 +78,34 @@ if ($_FILES['foto']['name'] =="") {
         Comprobamos los posibles errores en la apertura y escritura de ficheros
 **/
 
-        echo("Usuario registrado con éxito<br>");
-        $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreFoto.":".time().PHP_EOL;
+
+
+
+        if(registraUsuario($nombre,$mail,$pass,$fechaNac,$nombreFoto,$descripcion,$nivel,$activo,$errores)){
+            $usuario=compruebaUsuarioDb($mail,$errores,$errores);
+            $id=$usuario[0]['id_user'];
+            insertaIdiomaUsuario($idioma,$id,$errores);
+            insertaToken($token,$validez,$id,$errores);
+            echo("Usuario registrado con éxito<br>");
+            include('../libs/enviarCorreo.php');
+            if(enviaCorreo($mail,$sujeto,$nombre,$mensaje)){
+                echo("Se ha enviado un mensaje a su sorreo electrónico con en enlace para activar la cuenta<br>");
+            }
+        }else {
+            $errores['usuario']="El usuario ya existe";
+           //include("../vistas/formRegistro.php");
+            foreach($errores as $error) {
+                echo($error."<br>");
+            }
+        }
+       /* $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreFoto.":".time().PHP_EOL;
         if($puntero=fopen("../ficheros/usuarios.txt", "a+")) {
             fwrite($puntero, $linea);
             fclose($puntero);
         }else{
             $errores['fichero']="Error en la apertura del fichero";
         }
+        */
 ?>
         <form action="../vistas/index.php" method="">
     <input type="submit" name="salir" value="Volver a la página principal">
@@ -85,10 +113,11 @@ if ($_FILES['foto']['name'] =="") {
 <?php
 //si hay errores los mostramos
     } else {
-        include("../vistas/formRegistro.php");
-        foreach($errores as $error) {
-                        echo($error."<br>");
+         foreach($errores as $error) {
+            echo($error."<br>");
         }
+        include("../vistas/formRegistro.php");
     }
+
 
 ?>

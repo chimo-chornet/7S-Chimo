@@ -1,5 +1,4 @@
 <?php
-session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,17 +43,22 @@ if(isset($_COOKIE['galletacolor'])){
 </select><br><br>
   Descripción:<br> <textarea name="descripcion" id="Descripción" cols="46" rows="3"><?=(isset($descripcion))? $descripcion:""?></textarea><br><br>
   Tipo:
-  <input type="radio" name="tipo" id="Tipo" value="Pago">Pago
-  <input type="radio" name="tipo" id="Tipo" value="Intercambio">Intercambio <br><br>
+  <input type="radio" name="tipo" id="Tipo" value="0">Pago
+  <input type="radio" name="tipo" id="Tipo" value="1">Intercambio <br><br>
 
   Precio por hora: <input type="number" name="precio" value="<?=(isset($precio))? $precio:""?>"><br><br>
   Ubicación: <input type="text" name="ubicacion" value="<?=(isset($ubicacion))? $ubicacion:""?>"><br><br>
   Disponibilidad:
-  Mañanas <input type="checkbox" name="disponibilidad[]" value="Mañanas">
-  Tardes <input type="checkbox" name="disponibilidad[]" value="Tardes">
-  Completo <input type="checkbox" name="disponibilidad[]" value="Completo">
-  Fines de semana <input type="checkbox" name="disponibilidad[]" value="FinesSemana"><br><br>
-  Foto del servicio: <input type="file" name="fotoServicio"><br><br>
+  <?php
+  include('../libs/bComponentes.php');
+  include_once('../libs/consultas.php');
+  $errores=[];
+  $valores=valoresDisponibilidad($errores);
+  pintaCheck($valores,'disponibilidad');
+
+  ?>
+
+  <br><br>Foto del servicio: <input type="file" name="fotoServicio"><br><br>
   <input type="submit" name="alta" value="Dar de alta el servicio">
   <input type="reset" name="salir" value="Cancelar y salir" onclick="location.href='../vistas/privado.php'">
 

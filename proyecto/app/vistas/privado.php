@@ -1,7 +1,11 @@
 <?php
 session_start();
 include("../libs/bGeneral.php");
+include('../libs/consultas.php');
 //cabecera("Modificar prefil");
+if($_SESSION['nivel']==2){
+header("location:../manejadoresForm/admin.php");
+}
 $separados=[];
 $separa=[];
 //Mecanismo de cierre de sesión en una hora después del último accesso
@@ -9,6 +13,8 @@ $separa=[];
 if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']){
     echo("La sesión se cerrará");
     header("location:../manejadoresForm/cierra.php");
+}else{
+    $_SESSION['acceso']=time();
 }
 //Si existe la cookie la recogemos y sanitizamos. Después la usamos para el color del fondo.
 
@@ -16,11 +22,12 @@ if(isset($_COOKIE["galletacolor"])){
     $color=$_COOKIE["galletacolor"];
 }
 //si el usuario no está logeado no puede acceder
-if(!isset($_SESSION["usuario"])){
+if($_SESSION["nivel"]==0){
 echo("Esta zona es exculsiva para usuarios logueados");
 
 
 }else{
+
 
       echo("Bienvenido usuario: ".$_SESSION["usuario"]."<br>");
         if($_SESSION['imagen']!=="Sin imagen") {
@@ -49,13 +56,19 @@ echo("<Style>body{background-color:$color}</style>");
 </form>
 <?php
 //imprime la lista de servicios completa
-    $puntero=fopen("../ficheros/servicios.txt", "r");
+
+$servicios=listaServicios($_SESSION['id_usuario']);
+foreach($servicios as $linea){
+    echo("<a href=\"../manejadoresForm/paginaServicio.php?id_servicio=".$linea['id_servicios']."\">".$linea['titulo']." - ".$linea['descripcion']."</a><br>");
+}
+   /* $puntero=fopen("../ficheros/servicios.txt", "r");
     echo("<h2>Lista de servicios disponibles</h2>");
     echo("<ul>");
     while(!feof($puntero)) {
         $linea=fgets($puntero);
         $separados=explode(":", $linea);
 if($linea!="") {
+
     $imagen=$separados[6];
     if($imagen=="Sin imagen") {
         echo("<li>".$separados[0]." - ".$separados[1]." - ".$separados[2]." - ".$separados[3]." - ".$separados[4]." - ".$separados[5]." - "."$imagen"."</li>");
@@ -66,5 +79,6 @@ if($linea!="") {
     }
     echo("</ul>");
     fclose($puntero);
+*/
 }
 ?>

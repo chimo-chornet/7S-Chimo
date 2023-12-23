@@ -4,7 +4,15 @@
   Dirección E-mail: <input type="email" name="email" value="<?=(isset($mail))? $mail:""?>"><br><br>
   Contraseña: <input type="password" name="contrasenya"><br><br>
   Foto del perfil: <input type="file" name="foto"><br><br>
-  Idioma preferente: <select name="idioma" id="" >
+  Idioma preferente:
+<?php
+  include_once('../libs/consultas.php');
+
+  include('../libs/bComponents.php');
+    $errores=[];
+    $valor=listaIdiomas($errores);
+    pintaSelect($valor,'idioma')
+    ?>
    <option value="esp" selected>Español</option>
     <option value="eng">Inglés</option>
   </select><br><br>

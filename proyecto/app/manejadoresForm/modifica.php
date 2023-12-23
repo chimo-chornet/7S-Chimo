@@ -13,21 +13,16 @@ Los mismos comentarios con respecto a confog.php, control de zona privada y la f
 **/
 //recogida sanitizada de datos del formulario
 
-$pass=recoge('contrasenya');
+$passw=recoge('contrasenya');
 $idioma=recoge('idioma');
 $descripcion=recoge('descripcion');
 
 cTexto($descripcion,'Descripcion',$errores,300);
-$valores=['esp','eng'];
-cRadio($idioma,'idioma',$errores,$valores);
-cPassword($pass,$errores,'password',4);
-if($pass==""){
-    $errores['password']="Debe introducir una constraseña";
-}
-if($idioma==""){
-    $errores['idioma']="Debe introducir un idioma prederido";
-}
+include_once('../libs/consultas.php');
+compruebaIdiomas($idioma,$errores);
+cPassword($passw,$errores,'password',4);
 
+$pass=encriptar($passw);
 
 if ($_FILES['foto']['name']=="") {
     $nombreFoto='Sin imagen';
@@ -44,6 +39,9 @@ if($nombreFoto==false){
 
 
     if(empty($errores)) {
+        include_once('../libs/consultas.php');
+        modificaUsuario($_SESSION['id_usuario'],$pass,$nombreFoto,$descripcion,$idioma,$errores);
+        /*
         $todo=file_get_contents("../ficheros/usuarios.txt","r");
         $lineas=explode(PHP_EOL,$todo);
         $clave=0;
@@ -71,6 +69,7 @@ if($nombreFoto==false){
         $_SESSION['imagen']=$nombreFoto;
         $_SESSION['descripcion']=$descripcion;
         $_SESSION['idioma']=$idioma;
+        */
         header("location:../vistas/privado.php");
 
     } else {
