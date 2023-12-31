@@ -2,9 +2,9 @@
 session_start();
 include("../libs/bGeneral.php");
 cabecera("Cerrar");
-//si el usuario no está logeado no puede acceder
+//si el usuario no está logueado no puede acceder
 if(!isset($_SESSION["usuario"])) {
-    echo("Esta zona es exculsiva para usuarios logeados");
+    echo("Esta zona es exculsiva para usuarios logueados");
 }else{
 
 //destruimos la sesión y la cookie

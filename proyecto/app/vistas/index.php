@@ -7,27 +7,8 @@ cabecera("Página principal");
   <a href="../vistas/formRegistro.php">Registro<a><br>
     <h2>Listado de servicios</h2>
 <?php
-//imprimimos la lista de servicios. Sólo títulos
+//imprimimos una muestra de la lista de servicios con links.
 
-/**
-  Te falta hacer las comprobaciones para evitar errores en los ficheros, como en los ejemplos.
-  Comprobar si existe, si la lectura ha ido bien, ...
-**/
-/*
-if(is_file("../ficheros/servicios.txt")) {
-    if(($puntero=fopen("../ficheros/servicios.txt", "r"))){
-    echo("<ul>");
-    while(!feof($puntero)) {
-        $linea=fgets($puntero);
-        $separados=explode(":", $linea);
-        if($linea!="") {
-            echo("<li>".$separados[0]."</li>");
-        }
-    }
-    }
-echo("</ul>");
-fclose($puntero);
-}*/
 include('../libs/consultas.php');
 $servicios=listaServiciosIndex();
 foreach($servicios as $linea){

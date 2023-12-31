@@ -12,7 +12,6 @@ if(isset($_GET['token'])) {
             echo("El token ha expirado");
             echo("<br><a href='../vistas/formLogin.php'>Acceder</a>");
         }else{
-
             activaCuenta($idUsuario,$errores);
             echo("Cuenta activada<br>");
             echo("<a href='../vistas/formLogin.php'>Acceder</a>");

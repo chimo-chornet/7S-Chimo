@@ -13,10 +13,9 @@ if($_SESSION['nivel']<2){
 
     if(isset($_COOKIE["galletacolor"])){
         $color=$_COOKIE["galletacolor"];
-    }
     //establecemos el color de fondo traido por la cookie
-echo("<Style>body{background-color:$color}</style>");
-
+    echo("<Style>body{background-color:$color}</style>");
+    }
 
 include('../libs/bGeneral.php');
 include('../libs/consultas.php');
@@ -26,7 +25,6 @@ cTexto($disponib,'disponibilidad',$errores);
 if(empty($errores)) {
     if(insertaDisponibilidad($disponib)) {
         echo("Disponibilidad añadida<br>");
-        //echo("<a href='../manejadoresForm/admin.php'>VOLVER AL PANEL DE CONTROL</a>");
     }
 }else{
     foreach($errores as $error){

@@ -19,10 +19,9 @@ if($_SESSION['nivel']<1){
 
     if(isset($_COOKIE["galletacolor"])){
         $color=$_COOKIE["galletacolor"];
-    }
     //establecemos el color de fondo traido por la cookie
 echo("<Style>body{background-color:$color}</style>");
-
+    }
 
 //recogida sanitizada de datos del formulario
 
@@ -34,9 +33,7 @@ $precio=recoge('precio');
 $ubicacion=recoge('ubicacion');
 $disponibilidad=recogeArray('disponibilidad');
 
-
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
-
 
     cTexto($titulo,'titulo',$errores);
     cTexto($descripcion,'descripcion',$errores,50,1);
@@ -58,30 +55,21 @@ if (($nombreCompleto=cFile('fotoServicio', $errores, $extensionesValidas, $dir, 
     $nombreCompleto='Sin imagen';
 }
 }
-//si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
+//si no hay errores en la validación de los datos guardamos las modificaciones en el fichero
 
 if(empty($errores)) {
 
     $idServicio=registraServicio($titulo,$_SESSION['id_usuario'],$descripcion,$precio,$tipo,$nombreCompleto,$errores);
     foreach($errores as $error) {
-
         echo($error."<br>");
     }
 
-
     foreach($disponibilidad as $disp){
         insertaDisponibilidadServicio($idServicio,$disp);
-
     }
-    /*$linea=$titulo.":".$categoria.":".$descripcion.":".$tipo.":".$precio.":".$ubicacion.":".$nombreCompleto.":".$disponible.":".time().PHP_EOL;
-    $puntero=fopen("../ficheros/servicios.txt", "a+");
-    fwrite($puntero, $linea);
-    fclose($puntero);
-    */
     header("location:../vistas/privado.php");
-//si hay errores los mostramos
 } else {
-
+//si hay errores los mostramos
     foreach($errores as $error) {
 
         echo($error."<br>");

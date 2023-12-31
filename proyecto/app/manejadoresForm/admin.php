@@ -13,9 +13,9 @@ if($_SESSION['nivel']<2){
 
     if(isset($_COOKIE["galletacolor"])){
         $color=$_COOKIE["galletacolor"];
-    }
     //establecemos el color de fondo traido por la cookie
-echo("<Style>body{background-color:$color}</style>");
+    echo("<Style>body{background-color:$color}</style>");
+    }
 
 
 echo("<h1>Bienvenido al Panel de administración</h1>");

@@ -3,7 +3,6 @@
   <label>Idioma: </label>
   <?php
   include_once('../libs/consultas.php');
-
   include_once('../libs/bComponentes.php');
     $errores=[];
     $valor=listaIdiomas($errores);

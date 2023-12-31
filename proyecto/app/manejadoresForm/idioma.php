@@ -13,10 +13,9 @@ if($_SESSION['nivel']<2){
 
     if(isset($_COOKIE["galletacolor"])){
         $color=$_COOKIE["galletacolor"];
+        //establecemos el color de fondo traido por la cookie
+        echo("<Style>body{background-color:$color}</style>");
     }
-    //establecemos el color de fondo traido por la cookie
-echo("<Style>body{background-color:$color}</style>");
-
 
 include('../libs/bGeneral.php');
 include('../libs/consultas.php');

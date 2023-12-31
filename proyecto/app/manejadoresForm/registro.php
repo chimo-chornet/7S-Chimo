@@ -25,10 +25,6 @@ Estas variables es mejor ponerlas en una librería de configuración config.php
 //recogemos los datos del formulario
 $nombre=recoge('nombre');
 $mail=recoge('email');
-/*
-La foto no se recoge porque no llega a $_REQUEST
-*/
-
 $passw=recoge('contrasenya');
 $fechaNac=fechaCorrecta(recoge('nacimiento'),$errores);
 $idioma=recoge('idioma');
@@ -46,41 +42,20 @@ $validez=time()+(3600*24);
 $mensaje='Para activar su cuenta pulse en el siguiente enlace http://localhost/dwes/7S-Chimo/proyecto/app/public/activar_cuenta.php?token='.$token;
 $sujeto='Activar cuenta';
 
-/*
-No es necesario comprobar si los campos son vacíos. Podemos hacerlo con las propias funciones de validación.
-Los campos como radio, select o check hay que validar que traen un valor de los de la lista para evitar un posible ataque.
-*/
+if(empty($errores)) {
+    if ($_FILES['foto']['name'] =="") {
+        $nombreFoto='Sin imagen';
 
-/**
-Antes de subir la foto comprobamos sino hay errores en los campos anteriores
-La foto la validamos con la función cFile
-**/
+    } else {
+        //si todo es correcto subimos la imágen
 
-if ($_FILES['foto']['name'] =="") {
-    $nombreFoto='Sin imagen';
-
-} else {
-    //si todo es correcto subimos la imágen
-
-    if(($nombreFoto=cFile('foto',$errores,$extensionesValidas,$dir,$max_file_size))==false){
-        $errores['foto']="Error en la subida de la fotografía";
+        if(($nombreFoto=cFile('foto', $errores, $extensionesValidas, $dir, $max_file_size))==false) {
+            $errores['foto']="Error en la subida de la fotografía";
+        }
     }
-
-    /**
-    * Si hay errores volvemos a mostrar el formulario con los errores
-    */
-
 }
- //si no hay errores en la validación de los datos guardamos las mofdificaciones en el fichero
 
     if(empty($errores)) {
-/**
-        Comprobamos los posibles errores en la apertura y escritura de ficheros
-**/
-
-
-
-
         if(registraUsuario($nombre,$mail,$pass,$fechaNac,$nombreFoto,$descripcion,$nivel,$activo,$errores)){
             $usuario=compruebaUsuarioDb($mail,$errores,$errores);
             $id=$usuario[0]['id_user'];
@@ -93,19 +68,13 @@ if ($_FILES['foto']['name'] =="") {
             }
         }else {
             $errores['usuario']="El usuario ya existe";
-           //include("../vistas/formRegistro.php");
+
             foreach($errores as $error) {
                 echo($error."<br>");
             }
+            include("../vistas/formRegistro.php");
         }
-       /* $linea=$nombre.":".$pass.":".$mail.":".$fechaNac.":".$idioma.":".$descripcion.":".$nombreFoto.":".time().PHP_EOL;
-        if($puntero=fopen("../ficheros/usuarios.txt", "a+")) {
-            fwrite($puntero, $linea);
-            fclose($puntero);
-        }else{
-            $errores['fichero']="Error en la apertura del fichero";
-        }
-        */
+
 ?>
         <form action="../vistas/index.php" method="">
     <input type="submit" name="salir" value="Volver a la página principal">
@@ -118,6 +87,4 @@ if ($_FILES['foto']['name'] =="") {
         }
         include("../vistas/formRegistro.php");
     }
-
-
 ?>

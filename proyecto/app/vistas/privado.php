@@ -2,7 +2,7 @@
 session_start();
 include("../libs/bGeneral.php");
 include('../libs/consultas.php');
-//cabecera("Modificar prefil");
+
 if($_SESSION['nivel']==2){
 header("location:../manejadoresForm/admin.php");
 }
@@ -20,15 +20,13 @@ if(time()-($_SESSION['acceso'])>3600 || $_SESSION['ip']!=$_SERVER['REMOTE_ADDR']
 
 if(isset($_COOKIE["galletacolor"])){
     $color=$_COOKIE["galletacolor"];
+     //establecemos el color de fondo traido por la cookie
+echo("<Style>body{background-color:$color}</style>");
 }
-//si el usuario no está logeado no puede acceder
+//si el usuario no está logueado no puede acceder
 if($_SESSION["nivel"]==0){
 echo("Esta zona es exculsiva para usuarios logueados");
-
-
 }else{
-
-
       echo("Bienvenido usuario: ".$_SESSION["usuario"]."<br>");
         if($_SESSION['imagen']!=="Sin imagen") {
             echo("<br><img src=\"".$_SESSION['imagen']."\" alt=\"foto\" width=\"100px\"><br>");
@@ -41,10 +39,6 @@ echo("Esta zona es exculsiva para usuarios logueados");
         echo("<b>Descripción: </b>".$_SESSION['descripcion']."<br>");
 
 
-
-
-    //establecemos el color de fondo traido por la cookie
-echo("<Style>body{background-color:$color}</style>");
 //formulario con botón de salida segura y cierre de sesión
     ?>
     <br>
@@ -61,24 +55,5 @@ $servicios=listaServicios($_SESSION['id_usuario']);
 foreach($servicios as $linea){
     echo("<a href=\"../manejadoresForm/paginaServicio.php?id_servicio=".$linea['id_servicios']."\">".$linea['titulo']." - ".$linea['descripcion']."</a><br>");
 }
-   /* $puntero=fopen("../ficheros/servicios.txt", "r");
-    echo("<h2>Lista de servicios disponibles</h2>");
-    echo("<ul>");
-    while(!feof($puntero)) {
-        $linea=fgets($puntero);
-        $separados=explode(":", $linea);
-if($linea!="") {
-
-    $imagen=$separados[6];
-    if($imagen=="Sin imagen") {
-        echo("<li>".$separados[0]." - ".$separados[1]." - ".$separados[2]." - ".$separados[3]." - ".$separados[4]." - ".$separados[5]." - "."$imagen"."</li>");
-    } else {
-        echo("<li>".$separados[0]." - ".$separados[1]." - ".$separados[2]." - ".$separados[3]." - ".$separados[4]." - ".$separados[5]." - "."<img src=\"$imagen\"width=\"45px\">"." - <b>Disponibilidad</b>: ".$separados[7]." - "."<b>Desde el</b> ".date('d-m-Y',$separados[8])."</li>");
-    }
-}
-    }
-    echo("</ul>");
-    fclose($puntero);
-*/
 }
 ?>

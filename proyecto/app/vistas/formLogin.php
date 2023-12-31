@@ -6,8 +6,6 @@
   <title>Document</title>
 </head>
 <body>
-
-
 <h1>Acceso al área privada</h1>
 <form action="../manejadoresForm/login.php" method="POST" enctype="multipart/form-data">
   Dirección E-mail: <input type="text" name="mail" value="<?=(isset($mail))? $mail:""?>"><br><br>
@@ -17,8 +15,6 @@
   <input type="radio" name="colorFondo" id="white" value="white" checked>Blanco<br><br>
   <input type="submit" name="acceder" value="Acceder">
   <input type="button" name="salir" value=Salir onclick="location.href='../vistas/index.php'">
-
-
 </form>
 </body>
 </html>

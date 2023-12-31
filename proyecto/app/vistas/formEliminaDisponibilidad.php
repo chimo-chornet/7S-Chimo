@@ -4,7 +4,6 @@
   <label>Disponibilidad: </label>
   <?php
   include_once('../libs/consultas.php');
-
   include_once('../libs/bComponentes.php');
     $errores=[];
     $valor= ($errores);
