@@ -45,10 +45,8 @@ if(isset($_COOKIE['galletacolor'])){
   Tipo:
   <input type="radio" name="tipo" id="Tipo" value="0">Pago
   <input type="radio" name="tipo" id="Tipo" value="1">Intercambio <br><br>
-
   Precio por hora: <input type="number" name="precio" value="<?=(isset($precio))? $precio:""?>"><br><br>
-  Ubicación: <input type="text" name="ubicacion" value="<?=(isset($ubicacion))? $ubicacion:""?>"><br><br>
-  Disponibilidad:
+   Disponibilidad:
   <?php
   include('../libs/bComponentes.php');
   include_once('../libs/consultas.php');

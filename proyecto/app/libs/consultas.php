@@ -1,75 +1,5 @@
 <?php
 
-
-function listaEmpleados(&$errores){
-$consulta="SELECT * FROM `empleados`";
-try {
-    include("../libs/config.php");
-    $con=$pdo->prepare($consulta);
-
-    if($con->execute()) {
-        $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
-        return $resultado;
-    }else{
-        $errores['listado']="No se ha podido ejecutar la consulta";
-        return false;
-    }
-
-}catch (PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->$getLine()."##Código: ".$e->getCode()."##Instante: ".mircotime().PHP_EOL,3,"../logBd.txt");
-}
-$pdo=null;
-}
-
-function listaLocalidades(&$errores){
-    $consulta="SELECT * FROM `localidades`";
-try {
-    include("../libs/config.php");
-    $con=$pdo->prepare($consulta);
-
-    if($con->execute()) {
-        $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
-        return $resultado;
-    }else{
-        $errores['listado']="No se ha podido ejecutar la consulta";
-        return false;
-    }
-
-}catch (PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->$getLine()."##Código: ".$e->getCode()."##Instante: ".mircotime().PHP_EOL,3,"../logBd.txt");
-}
-$pdo=null;
-}
-function insertaEmpleado($nombre,$puesto,$fecha,$salario,$localidad,$usuario,$passw,&$errores){
-    $consulta="INSERT INTO `empleados`(nombre,puesto,fecha_nacimiento, salario,localidad,usuario,passw) VALUES (?,?,?,?,?,?,?)";
-    if(compruebaUsuarioDb($usuario,$errores)==true){
-        $errores['usuario']="El usuario ya existe";
-        return false;
-    }
-            try {
-                include("../libs/config.php");
-                $con=$pdo->prepare($consulta);
-                $con->bindParam(1, $nombre);
-                $con->bindParam(2, $puesto);
-                $con->bindParam(3, $fecha);
-                $con->bindParam(4, $salario);
-                $con->bindParam(5, $localidad);
-                $con->bindParam(6, $usuario);
-                $con->bindParam(7, $passw);
-                if($con->execute()){
-                return true;
-                }
-            }catch (PDOException $e){
-                // En este caso guardamos los errores en un archivo de errores log
-                error_log($e->getMessage() . "##Código: " . $e->getCode() . "  " . microtime() . PHP_EOL, 3, "../logBD.txt");
-
-                // guardamos en ·errores el error que queremos mostrar a los usuarios
-                $errores['datos'] = "Ha habido un error <br>";
-                return false;
-            }
-            $pdo=null;
-    }
-
 function compruebaUsuarioDb($usuario,&$errores){
     include("../libs/conexion.php");
     $consulta="SELECT * FROM `usuario` WHERE email=?";
@@ -85,63 +15,12 @@ try {
         return false;
     }
 }catch (PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->$getLine()."##Código: ".$e->getCode()."##Instante: ".mircotime().PHP_EOL,3,"../logBd.txt");
-
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->$getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 }
         $pdo=null;
     }
-function compruebaLocalidad($localidad,&$errores){
-    include("../libs/config.php");
-    $consulta="SELECT * FROM `localidades` WHERE id_localidad=?";
-    try{
-    $con=$pdo->prepare($consulta);
-    $con->bindParam(1,$localidad);
-    $con->execute();
-    $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
-    if(count($resultado)!=0){
-        //$errores['usuario']="El usuario ya existe";
-        return $resultado;
-    }else{
-        return false;
-    }
-}catch (PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->$getLine()."##Código: ".$e->getCode()."##Instante: ".mircotime().PHP_EOL,3,"../logBd.txt");
 
-}
-    $pdo=null;
-}
-function eliminarEmpleado($id,&$errores)
-{
-    require("../libs/config.php");
-    $consulta="DELETE FROM `empleados` WHERE id=?";
-    try {
-        $con=$pdo->prepare($consulta);
-        $con->bindParam(1, $id);
-        if(!$con->execute()){
-            $errores['datos']="No se ha podido eliminar el empleado";
-            return false;
-        }else{
-            return true;
-        }
-    } catch (PDOException $e) {
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL, 3, "../logBd.txt");
-
-    }
-}
-function valorEmpleados(){
-    require("../libs/config.php");
-$consulta="SELECT id FROM `empleados`";
-$cons=$pdo->query($consulta);
-$resul=$cons->fetchAll(PDO::FETCH_ASSOC);
-$valores=[];
-foreach($resul as $linea){
-    $valores[]=$linea['id'];
-    }
-    return $valores;
-    $pdo=null;
-}
 function registraUsuario($nombre,$mail,$pass,$fechaNac,$foto,$desc,$nivel,$activo,&$errores){
-
     $consulta="INSERT INTO `usuario`(nombre,email,pass,f_nacimiento,foto_perfil,descripción,nivel,activo) VALUES (?,?,?,?,?,?,?,?)";
 try {
     include('conexion.php');
@@ -162,9 +41,10 @@ try {
         return false;
     }
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
 }
+$pdo=null;
 }
 function listaIdiomas(&$errores){
     $consulta="SELECT * FROM `idioma`";
@@ -178,7 +58,7 @@ function listaIdiomas(&$errores){
                 $errores['idioma']=["El idioma no está registrado"];
             }
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
 }
 function compruebaIdiomas($id,&$errores){
@@ -195,9 +75,9 @@ function compruebaIdiomas($id,&$errores){
         $errores['idioma']=["El idioma no está registrado"];
     }
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
-
+    $pdo=null;
 }
 function insertaIdiomaUsuario($idioma,$usuario,&$errores){
     include('conexion.php');
@@ -211,9 +91,9 @@ function insertaIdiomaUsuario($idioma,$usuario,&$errores){
     }
 
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
-
+    $pdo=null;
 }
 function consultaIdiomaUsuario($usuario,&$errores){
     include('conexion.php');
@@ -228,10 +108,9 @@ if($con->execute()) {
     $errores['idioma']="No se ha podido comprobar el idioma del usuario";
 }
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
-
-
+    $pdo=null;
 }
 function devuelveIdioma($id,&$errores){
     include('conexion.php');
@@ -246,8 +125,9 @@ if($con->execute()) {
     $errores['idioma']="No se ha podido comprobar el idioma";
 }
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function insertaToken($token,$validez,$idUsuario,&$errores){
     include('conexion.php');
@@ -262,8 +142,9 @@ function insertaToken($token,$validez,$idUsuario,&$errores){
     }
 
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function compruebaToken($token,&$errores){
 
@@ -280,8 +161,9 @@ function compruebaToken($token,&$errores){
         return false;
     }
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function eliminaToken($token,&$errores){
     include('conexion.php');
@@ -295,9 +177,9 @@ function eliminaToken($token,&$errores){
             $errores['token']="No se ha podido eliminar el token";
          }
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
-
+    $pdo=null;
 }
 function activaCuenta($usuario,&$errores){
     include('conexion.php');
@@ -309,8 +191,9 @@ function activaCuenta($usuario,&$errores){
         $errores['activar']="No se ha podido activar la cuenta";
     }
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 
 function registraServicio($titulo,$idUsuario,$descripcion,$precio,$tipo,$fotoServicio,&$errores){
@@ -334,9 +217,9 @@ try {
         return false;
     }
 }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 }
+$pdo=null;
 }
 function valoresDisponibilidad($errores){
     $consulta="SELECT * FROM `disponibilidad`";
@@ -358,9 +241,10 @@ function valoresDisponibilidad($errores){
 
         }
     }catch(PDOException $e){
-    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+    error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
 }
+$pdo=null;
 }
 function listaServicios($idUsuario){
     $consulta="SELECT * FROM `servicios` WHERE id_user!=? ORDER BY fecha_alta DESC";
@@ -372,10 +256,11 @@ function listaServicios($idUsuario){
         $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
-}function listaServiciosIndex(){
+    $pdo=null;
+}
+function listaServiciosIndex(){
     $consulta="SELECT * FROM `servicios` LIMIT 10";
     try{
         include('conexion.php');
@@ -384,9 +269,9 @@ function listaServicios($idUsuario){
         $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function muestraServicio($id){
     $consulta="SELECT * FROM `servicios` WHERE id_servicios=?";
@@ -398,9 +283,9 @@ function muestraServicio($id){
         $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
         return $resultado[0];
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function devuelveUsuario($id){
     $consulta="SELECT * FROM `usuario` WHERE id_user=?";
@@ -412,13 +297,12 @@ function devuelveUsuario($id){
         $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
     }
+    $pdo=null;
 }
 function insertaDisponibilidadServicio($idServicio,$disponibilidad){
     include('conexion.php');
-
         $consulta="INSERT INTO `disp_servicio`(id_servicio,id_disponibilidad) VALUES (?,?)";
         try{
             $con=$pdo->prepare($consulta);
@@ -428,11 +312,10 @@ if($con->execute()) {
     return true;
 }
         }catch(PDOException $e){
-            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
         }
-
-
+        $pdo=null;
 }
 function devuelveIdServicio($servicio){
     $consulta="SELECT * FROM `servicios` WHERE titulo=?";
@@ -441,14 +324,13 @@ function devuelveIdServicio($servicio){
         $con=$pdo->prepare($consulta);
         $con->bindParam(1,$servicio);
         $con->execute();
-
-
         $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
     }
+    $pdo=null;
 }
 function consultaDisponibilidadServicio($idServicio){
     include('conexion.php');
@@ -457,14 +339,15 @@ function consultaDisponibilidadServicio($idServicio){
         try{
             $con=$pdo->prepare($consulta);
             $con->bindParam(1,$idServicio);
-if($con->execute()) {
-    $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
-    return $resultado;
+            if($con->execute()) {
+                $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
+                return $resultado;
 }
         }catch(PDOException $e){
-            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
         }
+        $pdo=null;
     }
     function devuelveDisponibilidad($idDisponibilidad){
         $consulta="SELECT * FROM `disponibilidad` WHERE id_disponibilidad=?";
@@ -472,15 +355,15 @@ if($con->execute()) {
             include('conexion.php');
             $con=$pdo->prepare($consulta);
             $con->bindParam(1,$idDisponibilidad);
-if($con->execute()) {
-    $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
-    return $resultado[0]['disponibilidad'];
+            if($con->execute()) {
+                $resultado=$con->fetchAll(PDO::FETCH_ASSOC);
+                return $resultado[0]['disponibilidad'];
 }
         }catch(PDOException $e){
-            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
         }
-
+        $pdo=null;
     }
     function modificaUsuario($idUsuario,$pass,$foto,$desc,$idioma,&$errores){
 
@@ -491,15 +374,14 @@ if($con->execute()) {
         $con=$pdo->prepare($consulta);
         $con->bindParam(1, $foto);
         $con->bindParam(2, $idUsuario);
-$con->execute();
-$consulta="UPDATE `usuario` SET pass =? WHERE id_user =?";
-$con=$pdo->prepare($consulta);
+        $con->execute();
+        $consulta="UPDATE `usuario` SET pass =? WHERE id_user =?";
+        $con=$pdo->prepare($consulta);
         $con->bindParam(1, $pass);
         $con->bindParam(2, $idUsuario);
         $con->execute();
-
         $consulta="UPDATE `usuario` SET descripción =? WHERE id_user =?";
-$con=$pdo->prepare($consulta);
+        $con=$pdo->prepare($consulta);
         $con->bindParam(1, $desc);
         $con->bindParam(2, $idUsuario);
 
@@ -512,7 +394,7 @@ $con=$pdo->prepare($consulta);
             return false;
         }
     }catch(PDOException $e){
-        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
     }
     }
@@ -525,72 +407,59 @@ $con=$pdo->prepare($consulta);
         $con->execute();
     }
     function eliminaDisponibilidad($idDisponibilidad){
-
-
-            $consulta="DELETE FROM `disponibilidad` WHERE id_disponibilidad=?";
-            try{
-                include('conexion.php');
-                $con=$pdo->prepare($consulta);
-                $con->bindParam(1,$idDisponibilidad);
-    if($con->execute()) {
-        return true;
-    }
+        $consulta="DELETE FROM `disponibilidad` WHERE id_disponibilidad=?";
+        try{
+            include('conexion.php');
+            $con=$pdo->prepare($consulta);
+            $con->bindParam(1,$idDisponibilidad);
+            if($con->execute()) {
+                return true;
+            }
             }catch(PDOException $e){
-                error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+                error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
             }
 
 
     }
     function insertaDisponibilidad($disponibilidad){
         include('conexion.php');
-
             $consulta="INSERT INTO `disponibilidad` (disponibilidad) VALUES (?)";
             try{
                 $con=$pdo->prepare($consulta);
                 $con->bindParam(1,$disponibilidad);
-    if($con->execute()) {
-        return true;
-    }
+                if($con->execute()) {
+                    return true;
+                }
             }catch(PDOException $e){
-                error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+                error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
             }
-
-
     }
     function insertaIdioma($idioma){
         include('conexion.php');
 
-            $consulta="INSERT INTO `idioma` (idioma) VALUES (?)";
-            try{
-                $con=$pdo->prepare($consulta);
-                $con->bindParam(1,$idioma);
-    if($con->execute()) {
-        return true;
-    }
-            }catch(PDOException $e){
-                error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
-
+       $consulta="INSERT INTO `idioma` (idioma) VALUES (?)";
+       try{
+           $con=$pdo->prepare($consulta);
+           $con->bindParam(1,$idioma);
+           if($con->execute()) {
+                return true;
             }
-
-
+        }catch(PDOException $e){
+        error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
+        }
     }
     function eliminaIdioma($idioma){
-
         $consulta="DELETE FROM `idioma` WHERE id_idioma=?";
         try{
             include('conexion.php');
             $con=$pdo->prepare($consulta);
             $con->bindParam(1,$idioma);
-if($con->execute()) {
-    return true;
-}
+            if($con->execute()) {
+                return true;
+            }
         }catch(PDOException $e){
-            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logBd.txt");
+            error_log("##Fichero: ".$e->getFile()."##Línea: ".$e->getLine()."##Código: ".$e->getCode()."##Instante: ".microtime().PHP_EOL,3,"../logs/logBd.txt");
 
         }
-
-
 }
 ?>

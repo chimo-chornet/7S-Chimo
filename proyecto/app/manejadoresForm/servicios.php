@@ -30,7 +30,6 @@ $categoria=recoge('categoria');
 $descripcion=recoge('descripcion');
 $tipo=recoge('tipo');
 $precio=recoge('precio');
-$ubicacion=recoge('ubicacion');
 $disponibilidad=recogeArray('disponibilidad');
 
 //comprobamos que son correctos y en caso contrario generamos los mensajes de error
@@ -46,7 +45,7 @@ $disponibilidad=recogeArray('disponibilidad');
         $valores[]=$clave;
     }
     cCheck($disponibilidad,'disponibilidad',$errores,$valores);
-    cTexto($ubicacion,'ubicacion',$errores);
+
 
 if($_FILES['fotoServicio']['name']==""){
     $nombreCompleto="Sin imagen";
